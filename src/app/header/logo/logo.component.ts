@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-logo',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./logo.component.css']
 })
 export class LogoComponent {
+  imageUrl: SafeResourceUrl;
 
+  constructor (private sanitizer: DomSanitizer) {
+    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl('../../../assets/logo.png'); 
+  }
 }

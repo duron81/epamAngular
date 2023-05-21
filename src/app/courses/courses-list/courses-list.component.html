@@ -1,1 +1,8 @@
-<p>courses-list works!</p>
+<ul class="coursesList">
+    <li *ngFor="let item of courses; trackBy: trackByFn">
+        <app-course-item [id]="item.Id" [title]="item.Title" [description]="item.Description" [duration]="item.Duration"
+            [creationDate]="item.CreationDate" (deletedItemId)="onDeleteCourse($event)">
+        </app-course-item>
+    </li>
+    <button class="coursesLoadMore" (click)="onClickLoadMore()">LOAD MORE</button>
+</ul>

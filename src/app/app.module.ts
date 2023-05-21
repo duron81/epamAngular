@@ -8,6 +8,9 @@ import { CoursesComponent } from './courses/courses.component';
 import { InputComponent } from './courses/input/input.component';
 import { CoursesListComponent } from './courses/courses-list/courses-list.component';
 import { FooterComponent } from './footer/footer.component';
+import { CourseItemComponent } from './courses/courses-list/course-item/course-item.component';
+import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -17,12 +20,14 @@ import { FooterComponent } from './footer/footer.component';
     CoursesComponent,
     InputComponent,
     CoursesListComponent,
-    FooterComponent
+    FooterComponent,
+    CourseItemComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

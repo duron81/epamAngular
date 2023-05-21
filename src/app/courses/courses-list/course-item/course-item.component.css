@@ -1,0 +1,39 @@
+.courseItemContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    min-height: 100px;
+}
+
+.courseItemUpperBlock {
+    display: flex;
+    align-items: center;
+}
+
+.courseItemTitle {
+    margin-right: 500px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.courseItemDuration {
+    margin-right: 50px;
+}
+
+.courseItemLowerBlock {
+    display: grid;
+    grid-template-columns: 10fr 1fr 1fr;
+}
+
+button {
+    width: 100px;
+    height: 34px;
+    color: #FFF;
+    background-color:deepskyblue;
+    border: none;
+    border-radius: 5%;
+    cursor: pointer;
+}
