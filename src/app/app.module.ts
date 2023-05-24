@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -9,8 +11,7 @@ import { InputComponent } from './courses/input/input.component';
 import { CoursesListComponent } from './courses/courses-list/courses-list.component';
 import { FooterComponent } from './footer/footer.component';
 import { CourseItemComponent } from './courses/courses-list/course-item/course-item.component';
-import { FormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { ButtonComponent } from './shared/components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { DatePipe } from '@angular/common';
     InputComponent,
     CoursesListComponent,
     FooterComponent,
-    CourseItemComponent
+    CourseItemComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,

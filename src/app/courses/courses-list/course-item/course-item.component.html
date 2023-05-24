@@ -2,11 +2,11 @@
     <div class="courseItemUpperBlock">
         <p class="courseItemTitle">{{title}}</p>
         <p class="courseItemDuration">{{duration}}</p>
-        <p class="courseItemCreationDate">{{formattedDate}}</p>
+        <p class="courseItemCreationDate">{{creationDate | date: 'mediumDate'}}</p>
     </div>
     <div class="courseItemLowerBlock">
         <p class="courseItemDescription">{{description}}</p>
-        <button class="courseEdit">Edit</button>
-        <button class="courseDelete" (click)="onDeletedCilck()">Delete</button>
+        <app-button label="Edit"></app-button>
+        <app-button label="Delete" (clicked)="onDeletedCilck()"></app-button>
     </div>
 </div>

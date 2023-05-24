@@ -6,23 +6,15 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './course-item.component.html',
   styleUrls: ['./course-item.component.css']
 })
-export class CourseItemComponent implements OnInit {
-  @Input() title: string = '';
-  @Input() description: string = '';
-  @Input() duration: number | undefined;
+export class CourseItemComponent {
+  @Input() title = '';
+  @Input() description = '';
+  @Input() duration?: number;
   @Input() creationDate:  Date | undefined;
-  @Input() id: number | undefined;
-  @Output() deletedItemId = new EventEmitter<number>();
+  @Input() id?: number;
+  @Output() deletedItemId: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private datePipe: DatePipe) {}
-
-  formattedDate: string | null = '';
-
-  ngOnInit() {
-    this.formattedDate = this.datePipe.transform(this.creationDate, 'yyyy-MM-dd');
-  }
-
-  onDeletedCilck() {
+  onDeletedCilck(): void {
     this.deletedItemId.emit(this.id);
   }
 
