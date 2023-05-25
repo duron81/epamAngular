@@ -1,0 +1,12 @@
+<div class="courseItemContainer">
+    <div class="courseItemUpperBlock">
+        <p class="courseItemTitle">{{title}}</p>
+        <p class="courseItemDuration">{{duration}}</p>
+        <p class="courseItemCreationDate">{{creationDate | date: 'mediumDate'}}</p>
+    </div>
+    <div class="courseItemLowerBlock">
+        <p class="courseItemDescription">{{description}}</p>
+        <app-button label="Edit"></app-button>
+        <app-button label="Delete" (clicked)="onDeletedCilck()"></app-button>
+    </div>
+</div>

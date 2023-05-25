@@ -1,0 +1,33 @@
+
+
+.coursesInnerContainer {
+    /* margin-bottom: 10px; */
+    padding: 20px 50px;
+    background-color: lightgray;
+    min-height: 600px;
+}
+
+.coursesContainer {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50px;
+}
+
+.coursesButtonContainer {
+    text-align: right;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.createNewCourseButton {
+    width: 100px;
+    height: 34px;
+    color: #FFF;
+    background-color:deepskyblue;
+    border: none;
+    border-radius: 5%;
+    cursor: pointer;
+}
+

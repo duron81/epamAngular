@@ -1,0 +1,27 @@
+
+
+
+.headerContainer {
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #414452;
+}
+
+.headerRightBlock {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.headerLogin {
+    color: white;
+}
+
+.headerLoginButton {
+    color: white;
+    background-color: #414452;
+    border: none; 
+    cursor: pointer;
+}
