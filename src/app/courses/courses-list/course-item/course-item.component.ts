@@ -18,4 +18,5 @@ export class CourseItemComponent {
     this.deletedItemId.emit(this.id);
   }
 
+  
 }

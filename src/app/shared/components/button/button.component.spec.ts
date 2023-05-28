@@ -18,4 +18,17 @@ describe('ButtonComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit output event', () => {
+    let emittedValue: void;
+
+    component.clicked.subscribe((value: void) => {
+      emittedValue = value;
+    });
+
+    component.onClick();
+
+    expect(emittedValue).toBe();
+  })
+
 });

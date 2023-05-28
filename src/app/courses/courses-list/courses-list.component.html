@@ -4,6 +4,5 @@
             [creationDate]="item.creationDate" (deletedItemId)="onDeleteCourse($event)">
         </app-course-item>
     </li>
-    <!-- <button class="coursesLoadMore" (click)="onClickLoadMore()">Load more</button> -->
-    <app-button label="Load more" (clicked)="onClickLoadMore()" [buttonClass]="'loadMoreButton'"></app-button>
+    <app-button [label]="'Load more'" (clicked)="onClickLoadMore()" [buttonClass]="'loadMoreButton'"></app-button>
 </ul>

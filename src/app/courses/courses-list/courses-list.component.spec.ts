@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CoursesListComponent } from './courses-list.component';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { CourseItemComponent } from './course-item/course-item.component';
 
 describe('CoursesListComponent', () => {
   let component: CoursesListComponent;
@@ -8,7 +10,7 @@ describe('CoursesListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CoursesListComponent]
+      declarations: [CoursesListComponent, ButtonComponent, CourseItemComponent]
     });
     fixture = TestBed.createComponent(CoursesListComponent);
     component = fixture.componentInstance;
@@ -18,4 +20,19 @@ describe('CoursesListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should console log "clicked" onClickLoadMore method', () => {
+    // component.text = 'some text';
+    spyOn(console, 'log');
+    component.onClickLoadMore();
+    expect(console.log).toHaveBeenCalledWith('clicked');
+  });
+
+  it('should console log index onDeleteCourse method', () => {
+    // component.text = 'some text';
+    spyOn(console, 'log');
+    component.onDeleteCourse(3);
+    expect(console.log).toHaveBeenCalledWith(3);
+  })
+
 });
