@@ -22,17 +22,17 @@ describe('CoursesListComponent', () => {
   });
 
   it('should console log "clicked" onClickLoadMore method', () => {
-    // component.text = 'some text';
     spyOn(console, 'log');
     component.onClickLoadMore();
     expect(console.log).toHaveBeenCalledWith('clicked');
   });
 
   it('should console log index onDeleteCourse method', () => {
-    // component.text = 'some text';
+    const mockCourseId = 3;
+
     spyOn(console, 'log');
-    component.onDeleteCourse(3);
-    expect(console.log).toHaveBeenCalledWith(3);
+    component.onDeleteCourse(mockCourseId);
+    expect(console.log).toHaveBeenCalledWith(mockCourseId);
   })
 
 });

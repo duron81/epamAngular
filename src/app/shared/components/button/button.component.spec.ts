@@ -20,15 +20,12 @@ describe('ButtonComponent', () => {
   });
 
   it('should emit output event', () => {
-    let emittedValue: void;
-
-    component.clicked.subscribe((value: void) => {
-      emittedValue = value;
+    let emittedValue = false;
+    component.clicked.subscribe(() => {
+      emittedValue = true;
     });
-
     component.onClick();
-
-    expect(emittedValue).toBe();
+    expect(emittedValue).toBe(true);
   })
 
 });
