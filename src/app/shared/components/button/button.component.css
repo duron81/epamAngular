@@ -1,6 +1,7 @@
 button {
     width: 100px;
     height: 34px;
+    margin-right: 5px;
     color: #FFF;
     background-color:deepskyblue;
     border: none;

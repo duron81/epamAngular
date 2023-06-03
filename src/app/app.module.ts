@@ -12,6 +12,7 @@ import { CoursesListComponent } from './courses/courses-list/courses-list.compon
 import { FooterComponent } from './footer/footer.component';
 import { CourseItemComponent } from './courses/courses-list/course-item/course-item.component';
 import { ButtonComponent } from './shared/components/button/button.component';
+import { HighlightCreationDateDirective } from './shared/directives/highlight-creation-date.directive';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ButtonComponent } from './shared/components/button/button.component';
     CoursesListComponent,
     FooterComponent,
     CourseItemComponent,
-    ButtonComponent
+    ButtonComponent,
+    HighlightCreationDateDirective
   ],
   imports: [
     BrowserModule,

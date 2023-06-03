@@ -10,7 +10,7 @@ export class CourseItemComponent {
   @Input() title = '';
   @Input() description = '';
   @Input() duration?: number;
-  @Input() creationDate:  Date | undefined;
+  @Input() creationDate!: Date;
   @Input() id?: number;
   @Output() deletedItemId: EventEmitter<number> = new EventEmitter<number>();
 
