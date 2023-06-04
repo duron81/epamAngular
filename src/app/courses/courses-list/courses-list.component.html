@@ -1,8 +1,8 @@
 <ul class="coursesList">
     <div class="noCourses" *ngIf="courses.length === 0">No data feel free to enter new course</div>
-    <li *ngFor="let item of courses; trackBy: trackByFn">
+    <li *ngFor="let item of filterItems(courses, searchValue) | orderBy; trackBy: trackByFn">
         <app-course-item [id]="item.id" [title]="item.title" [description]="item.description" [duration]="item.duration"
-            [creationDate]="item.creationDate" (deletedItemId)="onDeleteCourse($event)">
+            [creationDate]="item.creationDate" [topRated]="item.topRated" (deletedItemId)="onDeleteCourse($event)">
         </app-course-item>
     </li>
     <app-button [label]="'Load more'" (clicked)="onClickLoadMore()" [buttonClass]="'loadMoreButton'"></app-button>

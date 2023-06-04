@@ -13,6 +13,9 @@ import { FooterComponent } from './footer/footer.component';
 import { CourseItemComponent } from './courses/courses-list/course-item/course-item.component';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { HighlightCreationDateDirective } from './shared/directives/highlight-creation-date.directive';
+import { DurationPipePipe } from './shared/pipes/duration-pipe.pipe';
+import { OrderByPipe } from './shared/pipes/order-by.pipe';
+import { FilterPipe } from './shared/pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -25,13 +28,19 @@ import { HighlightCreationDateDirective } from './shared/directives/highlight-cr
     FooterComponent,
     CourseItemComponent,
     ButtonComponent,
-    HighlightCreationDateDirective
+    HighlightCreationDateDirective,
+    DurationPipePipe,
+    OrderByPipe,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
   ],
-  providers: [DatePipe],
+  exports: [
+    FilterPipe
+  ],
+  providers: [DatePipe, FilterPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

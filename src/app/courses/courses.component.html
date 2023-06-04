@@ -4,9 +4,9 @@
     </div>
 </div>
 <div class="coursesInnerContainer">
-    <app-input></app-input>
+    <app-input (inputValue)="onSumbitSearch($event)"></app-input>
     <div class="coursesButtonContainer">
         <app-button label="+ Add course"></app-button>
     </div>
-    <app-courses-list></app-courses-list>
+    <app-courses-list [searchValue]="searchValue"></app-courses-list>
 </div>

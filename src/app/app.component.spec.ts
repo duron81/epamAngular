@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -9,7 +10,7 @@ import { CourseItemComponent } from './courses/courses-list/course-item/course-i
 import { FooterComponent } from './footer/footer.component';
 import { LogoComponent } from './header/logo/logo.component';
 import { ButtonComponent } from './shared/components/button/button.component';
-import { FormsModule } from '@angular/forms';
+
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -38,10 +39,4 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('my-app');
   });
 
-  // it('should render title', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement as HTMLElement;
-  //   expect(compiled.querySelector('.content span')?.textContent).toContain('courses');
-  // });
 });

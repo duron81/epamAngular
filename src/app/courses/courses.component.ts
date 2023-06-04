@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class CoursesComponent {
 
+  searchValue = '';
+
+  onSumbitSearch(text: string) {
+      this.searchValue = text;
+  }
+
 }

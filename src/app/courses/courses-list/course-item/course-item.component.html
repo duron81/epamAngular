@@ -1,7 +1,11 @@
-<div [appHighlightCreationDate]="creationDate" class="courseItemContainer">
+<div [appHighlightCreationDate]="creationDate" class="courseItemContainer"
+    [ngClass]="{'courseItemContainerFavoriteBackground': topRated}">
     <div class="courseItemUpperBlock">
-        <p class="courseItemTitle">{{title}}</p>
-        <p class="courseItemDuration">{{duration}}</p>
+        <div class="courseItemTitleBlock">
+            <div class="courseItemTitle">{{title | uppercase }} </div>
+            <div *ngIf="topRated" class="courseItemStar">&#9733;</div>
+        </div>
+        <p class="courseItemDuration">{{duration | durationPipe}}</p>
         <p class="courseItemCreationDate">{{creationDate | date: 'mediumDate'}}</p>
     </div>
     <div class="courseItemLowerBlock">
