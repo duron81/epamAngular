@@ -14,7 +14,7 @@ export class InputComponent {
   // }
 
   onButtonClick() {
-    // console.log(this.text);
+    console.log(this.text);
     this.inputValue.emit(this.text);
   }
 }

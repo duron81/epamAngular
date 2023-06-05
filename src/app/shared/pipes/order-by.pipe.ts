@@ -14,9 +14,11 @@ export class OrderByPipe implements PipeTransform {
     return array.sort((a, b) => {
       if (a.creationDate < b.creationDate) {
         return -1;
-      } else if (a.creationDate > b.creationDate) {
+      } 
+      if (a.creationDate > b.creationDate) {
         return 1;
-      } else {
+      } 
+      else {
         return 0;
       }
     });

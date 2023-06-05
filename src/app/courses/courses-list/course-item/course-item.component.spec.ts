@@ -3,15 +3,22 @@ import { By } from '@angular/platform-browser';
 
 import { CourseItemComponent } from './course-item.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { DurationPipePipe } from 'src/app/shared/pipes/duration-pipe.pipe';
+import { HighlightCreationDateDirective } from 'src/app/shared/directives/highlight-creation-date.directive';
 
 
 describe('CourseItemComponent', () => {
   let component: CourseItemComponent;
   let fixture: ComponentFixture<CourseItemComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [CourseItemComponent, ButtonComponent]
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [
+        CourseItemComponent, 
+        ButtonComponent, 
+        DurationPipePipe, 
+        HighlightCreationDateDirective
+      ], providers: [DurationPipePipe]
     });
     fixture = TestBed.createComponent(CourseItemComponent);
     component = fixture.componentInstance;
