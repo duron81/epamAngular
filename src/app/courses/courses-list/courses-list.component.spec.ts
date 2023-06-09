@@ -33,13 +33,6 @@ describe('CoursesListComponent', () => {
     }
   }
 
-  // @Directive({
-  //   selector: '[appHighlightCreationDate]'
-  // })
-  // class MockHighlightDirective {
-  //   constructor(private elementRef: ElementRef) {}
-  // }
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ FormsModule ],

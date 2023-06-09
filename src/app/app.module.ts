@@ -37,10 +37,7 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
     BrowserModule,
     FormsModule,
   ],
-  exports: [
-    FilterPipe
-  ],
-  providers: [DatePipe, FilterPipe],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

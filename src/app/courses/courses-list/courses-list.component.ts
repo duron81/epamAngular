@@ -10,7 +10,7 @@ import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
 })
 export class CoursesListComponent implements OnInit {
 
-  constructor(private filterPipe: FilterPipe) {}
+  constructor() {}
 
   @Input() searchValue: string = '';
   
@@ -48,7 +48,8 @@ export class CoursesListComponent implements OnInit {
   }
 
   filterItems(courses: Course[], searchtext: string): Course[] {
-    return this.filterPipe.transform(courses, searchtext);
+    let filterPipe = new FilterPipe();
+    return filterPipe.transform(courses, searchtext);
   }
 
   onClickLoadMore(): void {
