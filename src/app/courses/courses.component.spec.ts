@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { CoursesComponent } from './courses.component';
@@ -22,7 +22,9 @@ describe('CoursesComponent', () => {
     selector: 'app-courses-list',
     template: '<p>Mock Course List component</p>'
   })
-  class MockCourseListComponent {}
+  class MockCourseListComponent {
+    @Input() searchValue: string = '';
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({

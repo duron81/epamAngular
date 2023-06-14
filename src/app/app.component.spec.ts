@@ -1,4 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { Pipe, PipeTransform } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -9,9 +11,22 @@ import { CourseItemComponent } from './courses/courses-list/course-item/course-i
 import { FooterComponent } from './footer/footer.component';
 import { LogoComponent } from './header/logo/logo.component';
 import { ButtonComponent } from './shared/components/button/button.component';
-import { FormsModule } from '@angular/forms';
+import { FilterPipe } from './shared/pipes/filter.pipe';
+import { OrderByPipe } from './shared/pipes/order-by.pipe';
+
+
 
 describe('AppComponent', () => {
+
+  @Pipe({
+    name: 'orderBy'
+  })
+  class MockOrderByPipe implements PipeTransform {
+    transform(value: number): number {
+      return value;
+    }
+  }
+
   beforeEach(() => TestBed.configureTestingModule({
     imports: [ FormsModule ],
     declarations: [
@@ -23,7 +38,9 @@ describe('AppComponent', () => {
       CourseItemComponent,
       FooterComponent,
       LogoComponent,
-      ButtonComponent]
+      ButtonComponent,
+      OrderByPipe],
+    providers: [FilterPipe]
   }));
 
   it('should create the app', () => {
@@ -38,10 +55,4 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('my-app');
   });
 
-  // it('should render title', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement as HTMLElement;
-  //   expect(compiled.querySelector('.content span')?.textContent).toContain('courses');
-  // });
 });

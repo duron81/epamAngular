@@ -6,6 +6,11 @@
     margin-bottom: 20px;
     border-radius: 5px;
     min-height: 100px;
+    border: 2px solid grey;
+}
+
+.courseItemContainerFavoriteBackground {
+    background-color: rgb(207, 232, 240);
 }
 
 .courseItemUpperBlock {
@@ -13,10 +18,20 @@
     align-items: center;
 }
 
+.courseItemTitleBlock {
+    display: flex;
+    justify-content: left;
+    width: 700px;
+}
+
 .courseItemTitle {
-    margin-right: 500px;
+    margin-right: 10px;
     font-size: 1.5rem;
     font-weight: 700;
+}
+
+.courseItemStar {
+    color: orange;
 }
 
 .courseItemDuration {
