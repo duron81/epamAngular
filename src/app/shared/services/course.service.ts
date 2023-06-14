@@ -1,0 +1,64 @@
+import { Injectable } from '@angular/core';
+import { Course } from '../interfaces/course.interface.';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CourseService {
+
+  constructor() { }
+
+  courses: Course[] = [{
+    id: 1,
+    title: 'Some Title 1',
+    creationDate: new Date(2023, 5, 1),
+    duration: 200,
+    description: "Some description 1",
+    topRated: false
+  },
+  {
+    id: 2,
+    title: 'Some Title 2',
+    creationDate: new Date(2023, 5, 30),
+    duration: 100,
+    description: "Some description 2",
+    topRated: false
+  },
+  {
+    id: 3,
+    title: 'Some Title 3',
+    creationDate: new Date(2023, 2, 1),
+    duration: 50,
+    description: "Some description 3",
+    topRated: true
+  }]
+
+  getListCourses(): Course[] {
+    return this.courses;
+  }
+
+  createCourse(course: Course): void {
+    this.courses.push(course);
+  }
+
+  getCourseById(id: number): Course | undefined {
+    const result = this.courses.find(course => course.id === id);
+    return result
+  }
+
+  updateCourse(courseForUpdate: Course) {
+    const updatedArray = this.courses.map(course => {
+      if (course.id === courseForUpdate.id) {
+        return {...course, ...courseForUpdate}
+      }
+      else return course;
+    });
+    return updatedArray;
+  }
+  
+  removeCourse(id: number) {
+    const updatedArray = this.courses.filter(course => course.id !== id);
+    this.courses = [...updatedArray];
+  }
+  
+}

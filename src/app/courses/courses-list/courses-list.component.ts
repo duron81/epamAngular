@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 
 import { Course } from 'src/app/shared/interfaces/course.interface.';
 import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
+import { CourseService } from 'src/app/shared/services/course.service';
 
 @Component({
   selector: 'app-courses-list',
@@ -10,37 +11,15 @@ import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
 })
 export class CoursesListComponent implements OnInit {
 
-  constructor() {}
+  constructor(private coursesService: CourseService, private cdr: ChangeDetectorRef) {}
 
   @Input() searchValue: string = '';
-  
+
   courses: Course[] = [];
 
+
   ngOnInit() {
-      this.courses = [{
-        id: 1,
-        title: 'Some Title 1',
-        creationDate: new Date(2023, 5, 1),
-        duration: 200,
-        description: "Some description 1",
-        topRated: false
-    },
-    {
-      id: 2,
-      title: 'Some Title 2',
-      creationDate: new Date(2023, 5, 30),
-      duration: 100,
-      description: "Some description 2",
-      topRated: false
-    },
-    {
-      id: 3,
-      title: 'Some Title 3',
-      creationDate: new Date(2023, 2, 1),
-      duration: 50,
-      description: "Some description 3",
-      topRated: true
-    }]
+      this.courses = this.coursesService.getListCourses();
   }
 
   trackByFn(index: number, item: Course): number {
@@ -56,7 +35,8 @@ export class CoursesListComponent implements OnInit {
     console.log('clicked');
   }
 
-  onDeleteCourse(data: number) {
-    console.log(data);
+  onDeleteCourse(id: number) {
+    this.coursesService.removeCourse(id);
+    this.courses = this.coursesService.getListCourses();
   }
 }

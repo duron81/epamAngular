@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectorRef } from '@angular/core';
+import { CourseService } from 'src/app/shared/services/course.service';
 
 @Component({
   selector: 'app-course-item',
@@ -14,9 +15,9 @@ export class CourseItemComponent {
   @Input() id?: number;
   @Input() topRated?: boolean;
 
-
-
   @Output() deletedItemId: EventEmitter<number> = new EventEmitter<number>();
+
+
 
   onDeletedCilck(): void {
     this.deletedItemId.emit(this.id);

@@ -16,6 +16,7 @@ import { HighlightCreationDateDirective } from './shared/directives/highlight-cr
 import { DurationPipePipe } from './shared/pipes/duration-pipe.pipe';
 import { OrderByPipe } from './shared/pipes/order-by.pipe';
 import { FilterPipe } from './shared/pipes/filter.pipe';
+import { CourseService } from './shared/services/course.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
     BrowserModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [CourseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
