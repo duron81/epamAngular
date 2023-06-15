@@ -16,6 +16,9 @@ export class CoursesListComponent implements OnInit {
   @Input() searchValue: string = '';
 
   courses: Course[] = [];
+  courseForDelete?: Course;
+  titleForDelete = "";
+  showModal = false;
 
 
   ngOnInit() {
@@ -36,7 +39,25 @@ export class CoursesListComponent implements OnInit {
   }
 
   onDeleteCourse(id: number) {
-    this.coursesService.removeCourse(id);
-    this.courses = this.coursesService.getListCourses();
+    this.courseForDelete = this.coursesService.getCourseById(id);
+    if (this.courseForDelete) {
+      this.titleForDelete = this.courseForDelete.title;
+    }
+    this.showModal = true;
+  }
+
+  onCloseModal() {
+    console.log(this.courseForDelete);
+    if (this.courseForDelete) {
+      console.log(this.courseForDelete);
+      this.coursesService.removeCourse(this.courseForDelete.id);
+      this.courses = this.coursesService.getListCourses();
+    }
+    console.log('end');
+    this.showModal = false;
+  }
+
+  onCancelModal() {
+    this.showModal = false;
   }
 }
