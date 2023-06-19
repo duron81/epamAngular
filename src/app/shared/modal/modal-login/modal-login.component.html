@@ -1,25 +1,27 @@
 <div class="modal">
     <div class="modal-content">
-      <h3>Login</h3>
-      <form (ngSubmit)="login()">
-        <div class="form-group">
-            <div class="form-group-upper">
-                <label for="email">Email:</label>
-                <span class="required-message">*required</span>
+        <h3>Login</h3>
+        <form (ngSubmit)="login()">
+            <div class="form-group">
+                <div class="form-group-upper">
+                    <label for="email">Email:</label>
+                    <span class="required-message">*required</span>
+                </div>
+                <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Enter e-mail" required>
             </div>
-            <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Enter e-mail" required>
-        </div>
-        <div class="form-group">
-            <div class="form-group-upper">
-                <label for="password">Password:</label>
-                <span class="required-message">*required</span>
+            <div class="form-group">
+                <div class="form-group-upper">
+                    <label for="password">Password:</label>
+                    <span class="required-message">*required</span>
+                </div>
+                <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Enter password"
+                    required>
             </div>
-            <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Enter password" required>
-        </div>
-        <div class="modal-footer">
-            <a href="#">Forgot password?</a>
-            <button type="submit" [disabled]="!(email && password)" [ngClass]="{'button-enabled': (email && password)}" >Login</button>
-        </div>
-      </form>
+            <div class="modal-footer">
+                <a href="#">Forgot password?</a>
+                <button type="submit" [disabled]="!(email && password)"
+                    [ngClass]="{'button-enabled': (email && password)}">Login</button>
+            </div>
+        </form>
     </div>
-  </div>
+</div>

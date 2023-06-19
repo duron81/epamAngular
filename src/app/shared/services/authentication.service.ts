@@ -22,17 +22,21 @@ export class AuthenticationService {
   }
 
   isAuthenticated(): boolean {
-    if (this.loggedUser) {
+    const token = localStorage.getItem("token");
+    if (token) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
-  getUserLogin(): string | undefined {
-    if (this.loggedUser) {
-      return this.loggedUser.email
+  getUserLogin(): string {
+    const token = localStorage.getItem("token");
+    if (token) {
+      return JSON.parse(token).email;
+    } else {
+      return '';
     }
-    return undefined;
   }
 
 }

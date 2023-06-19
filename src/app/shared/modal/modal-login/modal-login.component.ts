@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+import { AuthenticationService } from '../../services/authentication.service';
+import { User } from '../../interfaces/user.interface.';
 
 @Component({
   selector: 'app-modal-login',
@@ -6,13 +9,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./modal-login.component.css']
 })
 export class ModalLoginComponent implements OnInit {
-  email?: string;
-  password?: string;
-  isButtonEnabled: boolean = false;
+  @Input() appHideIfAuthenticated!: boolean;
+  @Output() userLogged: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor() { }
+  email!: string;
+  password!: string;
+  isButtonEnabled: boolean = false;
+  id: number = 1;
+
+  constructor(private authService: AuthenticationService) { }
 
   ngOnInit() {
+    console.log('on init in modal');
     if (this.email && this.password) {
       this.isButtonEnabled = true;
     }
@@ -22,12 +30,14 @@ export class ModalLoginComponent implements OnInit {
   }
 
   login(): void {
-    // Implement your login logic here
-    console.log('Login clicked');
-    console.log('Email:', this.email);
-    console.log('Password:', this.password);
-
-    // Clear the form after submission
+    const newUser: User = {
+      id: this.id,
+      email: this.email,
+      password: this.password
+    };
+    this.authService.login(newUser);
+    this.userLogged.emit();
+    console.log('logged on successfully');
     this.email = '';
     this.password = '';
   }

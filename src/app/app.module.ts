@@ -20,6 +20,8 @@ import { CourseService } from './shared/services/course.service';
 import { ModalDeleteComponent } from './courses/modal-delete/modal-delete/modal-delete.component';
 import { ClickStopPropagationDirective } from './shared/directives/click-stop-propagation.directive';
 import { ModalLoginComponent } from './shared/modal/modal-login/modal-login.component';
+import { AuthenticationService } from './shared/services/authentication.service';
+import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not-authenticated.directive';
 
 @NgModule({
   declarations: [
@@ -38,13 +40,14 @@ import { ModalLoginComponent } from './shared/modal/modal-login/modal-login.comp
     FilterPipe,
     ModalDeleteComponent,
     ClickStopPropagationDirective,
-    ModalLoginComponent
+    ModalLoginComponent,
+    HideIfNotAuthenticatedDirective,
   ],
   imports: [
     BrowserModule,
     FormsModule,
   ],
-  providers: [CourseService],
+  providers: [CourseService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
