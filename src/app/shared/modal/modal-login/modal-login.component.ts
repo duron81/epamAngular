@@ -20,7 +20,6 @@ export class ModalLoginComponent implements OnInit {
   constructor(private authService: AuthenticationService) { }
 
   ngOnInit() {
-    console.log('on init in modal');
     if (this.email && this.password) {
       this.isButtonEnabled = true;
     }
@@ -37,7 +36,6 @@ export class ModalLoginComponent implements OnInit {
     };
     this.authService.login(newUser);
     this.userLogged.emit();
-    console.log('logged on successfully');
     this.email = '';
     this.password = '';
   }

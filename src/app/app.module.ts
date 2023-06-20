@@ -18,7 +18,6 @@ import { OrderByPipe } from './shared/pipes/order-by.pipe';
 import { FilterPipe } from './shared/pipes/filter.pipe';
 import { CourseService } from './shared/services/course.service';
 import { ModalDeleteComponent } from './courses/modal-delete/modal-delete/modal-delete.component';
-import { ClickStopPropagationDirective } from './shared/directives/click-stop-propagation.directive';
 import { ModalLoginComponent } from './shared/modal/modal-login/modal-login.component';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not-authenticated.directive';
@@ -39,7 +38,6 @@ import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not
     OrderByPipe,
     FilterPipe,
     ModalDeleteComponent,
-    ClickStopPropagationDirective,
     ModalLoginComponent,
     HideIfNotAuthenticatedDirective,
   ],

@@ -63,13 +63,6 @@ describe('CoursesListComponent', () => {
     component.onClickLoadMore();
     expect(console.log).toHaveBeenCalledWith('clicked');
   });
-
-  it('should console log index onDeleteCourse method', () => {
-    const mockCourseId = 3;
-
-    spyOn(console, 'log');
-    component.onDeleteCourse(mockCourseId);
-    expect(console.log).toHaveBeenCalledWith(mockCourseId);
-  })
+  
 
 });

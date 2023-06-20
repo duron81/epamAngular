@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AuthenticationService } from './shared/services/authentication.service';
 
@@ -17,7 +17,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
       this.userName = this.authService.getUserLogin();
-      console.log('user name is ' + this.userName);
       this.showLoginModal = false;
     } else {
       this.showLoginModal = true;
