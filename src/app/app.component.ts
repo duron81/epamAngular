@@ -10,7 +10,8 @@ import { AuthenticationService } from './shared/services/authentication.service'
 export class AppComponent implements OnInit {
   title = 'my-app';
   showLoginModal?: boolean;
-  userName: string = '';
+  userName = '';
+
 
   constructor(private authService: AuthenticationService) {}
 

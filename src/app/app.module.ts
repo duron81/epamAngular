@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+
+import { CourseService } from './shared/services/course.service';
+import { AuthenticationService } from './shared/services/authentication.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -16,10 +18,8 @@ import { HighlightCreationDateDirective } from './shared/directives/highlight-cr
 import { DurationPipePipe } from './shared/pipes/duration-pipe.pipe';
 import { OrderByPipe } from './shared/pipes/order-by.pipe';
 import { FilterPipe } from './shared/pipes/filter.pipe';
-import { CourseService } from './shared/services/course.service';
 import { ModalDeleteComponent } from './courses/modal-delete/modal-delete/modal-delete.component';
 import { ModalLoginComponent } from './shared/modal/modal-login/modal-login.component';
-import { AuthenticationService } from './shared/services/authentication.service';
 import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not-authenticated.directive';
 
 @NgModule({
@@ -45,7 +45,7 @@ import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not
     BrowserModule,
     FormsModule,
   ],
-  providers: [CourseService, AuthenticationService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

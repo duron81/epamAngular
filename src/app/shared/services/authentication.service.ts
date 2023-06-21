@@ -9,34 +9,28 @@ export class AuthenticationService {
 
   constructor() { }
 
-  loggedUser?: User;
+  loggedUser!: User | null;
 
   login(user: User): void {
     this.loggedUser = {...user};
     localStorage.setItem("token", JSON.stringify(this.loggedUser));
+    window.location.reload();
   }
 
   logout(): void {
     localStorage.removeItem("token");
-    this.loggedUser = undefined;
+    this.loggedUser = null;
+    window.location.reload();
   }
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem("token");
-    if (token) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!token;
   }
 
   getUserLogin(): string {
     const token = localStorage.getItem("token");
-    if (token) {
-      return JSON.parse(token).email;
-    } else {
-      return '';
-    }
+    return token ? JSON.parse(token).email : '';
   }
 
 }

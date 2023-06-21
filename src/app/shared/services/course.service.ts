@@ -42,18 +42,16 @@ export class CourseService {
   }
 
   getCourseById(id: number): Course | undefined {
-    const result = this.courses.find(course => course.id === id);
-    return result
+    return this.courses.find(course => course.id === id);
   }
 
-  updateCourse(courseForUpdate: Course) {
-    const updatedArray = this.courses.map(course => {
+  updateCourse(courseForUpdate: Course): void {
+    this.courses.map(course => {
       if (course.id === courseForUpdate.id) {
         return {...course, ...courseForUpdate}
       }
       else return course;
     });
-    return updatedArray;
   }
   
   removeCourse(id: number) {
