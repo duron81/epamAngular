@@ -7,8 +7,6 @@ import { User } from '../interfaces/user.interface.';
 })
 export class AuthenticationService {
 
-  constructor() { }
-
   loggedUser!: User | null;
 
   login(user: User): void {

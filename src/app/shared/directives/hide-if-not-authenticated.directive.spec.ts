@@ -5,21 +5,24 @@ import { AuthenticationService } from '../services/authentication.service';
 
 describe('HideIfNotAuthenticatedDirective', () => {
 
-  @Injectable()
-  class MockService extends AuthenticationService {
+  // @Injectable()
+  //   class MockService extends AuthenticationService {
 
-  }
+  // }
+  let mockTemplateRef: TemplateRef<unknown>; 
+  let mockViewContainerRef: ViewContainerRef; 
+  let mockAuthService: AuthenticationService;
+
+  const mockService = jasmine.createSpyObj('AuthenticationService ', ['login', 'logout', 'isAuthenticated', 'getUserLogin']); 
+  mockService.login.and.returnValue('mocked value');
 
   @Component({
     template: ''
   })
   class MockComponent {
-    constructor(public viewContainerRef: ViewContainerRef, public mockAuthService: MockService) {}
+    constructor(public viewContainerRef: ViewContainerRef) {}
     myTemplateRef!: TemplateRef<unknown>;
   }
-
-  const elementRefMock = jasmine.createSpyObj('ElementRef', ['nativeElement']);
-  const rendererRefMock = jasmine.createSpyObj('Renderer2', ['nativeElement']);
 
   let fixture: ComponentFixture<MockComponent>;
 
@@ -27,17 +30,19 @@ describe('HideIfNotAuthenticatedDirective', () => {
     fixture = TestBed.configureTestingModule({
       declarations: [MockComponent, HideIfNotAuthenticatedDirective],
       providers: [
-        {provide: MockService}
+        {provide: TemplateRef, useValue: {}}, 
+        {provide: ViewContainerRef, useValue: {}}, 
+        {provide: AuthenticationService, useValue:{mockService}}
       ]
     }).createComponent(MockComponent);
   });
 
   it('should create an instance', () => {
-    const mockTemplateRef = fixture.componentInstance.myTemplateRef;
-    const mockViewContainerRef = fixture.componentInstance.viewContainerRef;
-    const mockService= fixture.componentInstance.mockAuthService;
+    mockTemplateRef = TestBed.inject(TemplateRef);
+    mockViewContainerRef = TestBed.inject(ViewContainerRef);
+    mockAuthService = TestBed.inject(AuthenticationService);
 
-    const directive = new HideIfNotAuthenticatedDirective(mockTemplateRef, mockViewContainerRef, mockService);
+    const directive = new HideIfNotAuthenticatedDirective(mockTemplateRef, mockViewContainerRef, mockAuthService);
     expect(directive).toBeTruthy();
   });
 });

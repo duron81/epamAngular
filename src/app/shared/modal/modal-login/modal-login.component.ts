@@ -9,7 +9,6 @@ import { User } from '../../interfaces/user.interface.';
   styleUrls: ['./modal-login.component.css']
 })
 export class ModalLoginComponent implements OnInit {
-  @Input() appHideIfAuthenticated!: boolean;
   @Output() userLogged: EventEmitter<void> = new EventEmitter<void>();
 
   email!: string;

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { ModalLoginComponent } from './modal-login.component';
-import { FormsModule } from '@angular/forms';
 
 describe('ModalLoginComponent', () => {
   let component: ModalLoginComponent;

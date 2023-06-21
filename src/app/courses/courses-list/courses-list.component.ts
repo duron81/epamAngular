@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { Course } from 'src/app/shared/interfaces/course.interface.';
 import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
@@ -11,7 +11,7 @@ import { CourseService } from 'src/app/shared/services/course.service';
 })
 export class CoursesListComponent implements OnInit {
 
-  constructor(private coursesService: CourseService, private cdr: ChangeDetectorRef) {}
+  constructor(private coursesService: CourseService) {}
 
   @Input() searchValue: string = '';
 
@@ -38,7 +38,7 @@ export class CoursesListComponent implements OnInit {
     console.log('clicked');
   }
 
-  onDeleteCourse(id: number) {
+  onDeleteCourse(id: number): void {
     this.courseForDelete = this.coursesService.getCourseById(id);
     if (this.courseForDelete) {
       this.titleForDelete = this.courseForDelete.title;
@@ -46,18 +46,17 @@ export class CoursesListComponent implements OnInit {
     this.showModal = true;
   }
 
-  onCloseModal() {
+  onCloseModal(): void {
     console.log(this.courseForDelete);
     if (this.courseForDelete) {
       console.log(this.courseForDelete);
       this.coursesService.removeCourse(this.courseForDelete.id);
       this.courses = this.coursesService.getListCourses();
     }
-    console.log('end');
     this.showModal = false;
   }
 
-  onCancelModal() {
+  onCancelModal(): void {
     this.showModal = false;
   }
 }
