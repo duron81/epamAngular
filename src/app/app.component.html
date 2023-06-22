@@ -1,6 +1,7 @@
-<app-header>
+<app-header [userName]="userName">
 </app-header>
-<app-courses>
+<app-modal-login *ngIf="showLoginModal" (userLogged)="onUserLogged()"></app-modal-login>
+<app-courses *appHideIfNotAuthenticated>
   <app-input></app-input>
   <app-courses-list></app-courses-list>
 </app-courses>
