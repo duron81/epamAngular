@@ -1,6 +1,5 @@
-import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { CourseService } from 'src/app/shared/services/course.service';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+
 
 @Component({
   selector: 'app-course-item',

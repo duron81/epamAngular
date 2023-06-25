@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ChangeDetectorRef } from '@angular/core';
 
 import { CourseItemComponent } from './course-item.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { DurationPipePipe } from 'src/app/shared/pipes/duration-pipe.pipe';
 import { HighlightCreationDateDirective } from 'src/app/shared/directives/highlight-creation-date.directive';
-import { ChangeDetectorRef } from '@angular/core';
+
 
 
 describe('CourseItemComponent', () => {
