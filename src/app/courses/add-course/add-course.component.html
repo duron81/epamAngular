@@ -1,0 +1,47 @@
+<section class="add-course-container">
+    <div class="add-course-content">
+        <h2>New Course</h2>
+        <div class="add-course-title">
+            <div class="add-course-title-uppr">
+                <label for="title">Title:</label>
+                <span class="required-message">*required</span>
+            </div>
+            <input type="text" id="title" [(ngModel)]="title" name="title" placeholder="Text input" required>
+        </div>
+        <div class="add-course-descr">
+            <div class="add-course-descr-uppr">
+                <label for="description">Description:</label>
+                <span class="required-message">*required</span>
+            </div>
+            <textarea name="description" id="description" cols="30" rows="10" [(ngModel)]="description"
+                placeholder="Add description" required></textarea>
+        </div>
+        <div class="add-course-duration">
+            <div class="add-course-duration-uppr">
+                <label for="duration">Duration:</label>
+                <span class="required-message">*required</span>
+            </div>
+            <div class="add-course-duration-lower">
+                <input type="number" id="duration" [(ngModel)]="duration" name="duration" placeholder="minutes"
+                    required>
+                <span class="duration-message">{{duration | durationPipe}}</span>
+            </div>
+        </div>
+        <div class="add-course-date">
+            <div class="add-course-date-uppr">
+                <label for="date">Date:</label>
+                <span class="required-message">*required</span>
+            </div>
+            <input type="text" id="date" [(ngModel)]="date" name="date" placeholder="MM/DD/YYYY" required>
+        </div>
+        <div class="add-course-authors">
+            <div class="add-course-authors-uppr">
+                <p>Authors:</p>
+            </div>
+        </div>
+        <div class="add-course-buttons">
+            <button class="button-cancel" (click)="onCancel()">Cancel</button>
+            <button class="button-save" (click)="onSave()">Save</button>
+        </div>
+    </div>
+</section>

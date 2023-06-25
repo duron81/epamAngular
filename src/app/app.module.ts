@@ -21,6 +21,7 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
 import { ModalDeleteComponent } from './courses/modal-delete/modal-delete/modal-delete.component';
 import { ModalLoginComponent } from './shared/modal/modal-login/modal-login.component';
 import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not-authenticated.directive';
+import { AddCourseComponent } from './courses/add-course/add-course.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not
     ModalDeleteComponent,
     ModalLoginComponent,
     HideIfNotAuthenticatedDirective,
+    AddCourseComponent,
   ],
   imports: [
     BrowserModule,

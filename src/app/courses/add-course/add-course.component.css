@@ -1,0 +1,135 @@
+
+.add-course-container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 30px;
+}
+
+.add-course-content {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    width: 800px;
+    height: 630px;
+}
+
+.add-course-title {
+    margin-top: 30px;
+}
+
+.add-course-title-uppr {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.add-course-title input {
+    width: 98%;
+    height: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+}
+
+.add-course-title input::placeholder {
+    color: lightgray;
+}
+
+.add-course-descr {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.add-course-descr-uppr {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.add-course-descr textarea {
+    width: 98%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+}
+
+.add-course-descr textarea::placeholder {
+    color: lightgray;
+}
+
+.add-course-duration {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.add-course-duration-uppr {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 22%;
+}
+
+.add-course-duration input {
+    margin-right: 20px;
+    height: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+}
+
+.add-course-duration input::placeholder {
+    color: lightgray;
+}
+
+.add-course-date {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.add-course-date-uppr {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 22%;
+}
+
+.add-course-date input {
+    margin-right: 20px;
+    height: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+}
+
+.add-course-date input::placeholder {
+    color: lightgray;
+}
+
+.add-course-authors {
+    margin-top: 30px;
+} 
+
+.add-course-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.add-course-buttons button {
+    height: 30px;
+    width: 80px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 1px solid lightgray;
+    background-color: lightgray;
+    padding: 0 5px;
+    color:gray;
+}
+
+.add-course-buttons .button-save {
+    color: #fff;
+    background-color: rgb(129, 206, 13);
+    border-color: rgb(129, 206, 13);
+}

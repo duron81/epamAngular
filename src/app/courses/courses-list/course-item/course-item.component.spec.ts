@@ -5,6 +5,7 @@ import { CourseItemComponent } from './course-item.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { DurationPipePipe } from 'src/app/shared/pipes/duration-pipe.pipe';
 import { HighlightCreationDateDirective } from 'src/app/shared/directives/highlight-creation-date.directive';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 describe('CourseItemComponent', () => {
@@ -32,13 +33,15 @@ describe('CourseItemComponent', () => {
   it('it should update correctly when input property changes', () => {
     const inputValue = 'test description';
     component.description = inputValue;
-    fixture.detectChanges();
+    const changeDetectorRef = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef);
+    changeDetectorRef.detectChanges();
     const descriptionElement = fixture.debugElement.query(By.css('.courseItemDescription')).nativeElement;
     expect(descriptionElement.textContent).toEqual(inputValue);
 
     const newInputValue = 'new test description';
     component.description = newInputValue;
-    fixture.detectChanges();
+    const changeDetectorRef2 = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef);
+    changeDetectorRef2.detectChanges();
     const newDescriptionElement = fixture.debugElement.query(By.css('.courseItemDescription')).nativeElement;
     expect(newDescriptionElement.textContent).toEqual(newInputValue);
   })
