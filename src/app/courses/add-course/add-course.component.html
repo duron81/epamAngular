@@ -32,11 +32,19 @@
                 <label for="date">Date:</label>
                 <span class="required-message">*required</span>
             </div>
-            <input type="text" id="date" [(ngModel)]="date" name="date" placeholder="MM/DD/YYYY" required>
+            <input type="date" id="date" [(ngModel)]="date" name="date" placeholder="MM/DD/YYYY" required>
         </div>
         <div class="add-course-authors">
             <div class="add-course-authors-uppr">
                 <p>Authors:</p>
+                <app-button [label]="'Add authors'" (clicked)="onAddAuthors()"></app-button>
+                <div *ngIf="showAuthors">
+                    <div class="authors-block">
+                        <div *ngFor="let author of authors; index as i">
+                            <button (click)="onDeleteAuthor(i)" class="author-button">{{author}} &#10005;</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="add-course-buttons">

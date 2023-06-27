@@ -10,7 +10,7 @@
     border-radius: 5px;
     padding: 20px;
     width: 800px;
-    height: 630px;
+    height: 700px;
 }
 
 .add-course-title {
@@ -95,7 +95,7 @@
 }
 
 .add-course-date input {
-    margin-right: 20px;
+    width: 21%;
     height: 20px;
     padding: 10px;
     border-radius: 5px;
@@ -109,6 +109,23 @@
 .add-course-authors {
     margin-top: 30px;
 } 
+
+.add-course-authors-uppr p {
+    margin-bottom: 10px;
+}
+
+.authors-block {
+    padding: 5px;
+    /* width: 100%; */
+    display: flex;
+    gap: 5px;
+    border: 1px solid lightgray;
+}
+
+.author-button {
+    padding: 3px;
+    border-color: lightgray;
+}
 
 .add-course-buttons {
     margin-top: 30px;

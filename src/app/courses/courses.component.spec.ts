@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { CoursesComponent } from './courses.component';
 import { ButtonComponent } from '../shared/components/button/button.component';
 import { CourseItemComponent } from './courses-list/course-item/course-item.component';
+import { AddCourseComponent } from './add-course/add-course.component';
+import { DurationPipePipe } from '../shared/pipes/duration-pipe.pipe';
 
 
 
@@ -34,7 +36,9 @@ describe('CoursesComponent', () => {
         MockInputComponent, 
         ButtonComponent, 
         MockCourseListComponent, 
-        CourseItemComponent]
+        CourseItemComponent,
+        AddCourseComponent],
+      providers: [DurationPipePipe]
     });
     fixture = TestBed.createComponent(CoursesComponent);
     component = fixture.componentInstance;
