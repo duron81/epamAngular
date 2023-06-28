@@ -49,7 +49,6 @@ export class CoursesListComponent implements OnInit {
   onCloseModal(): void {
     console.log(this.courseForDelete);
     if (this.courseForDelete) {
-      console.log(this.courseForDelete);
       this.coursesService.removeCourse(this.courseForDelete.id);
       this.courses = this.coursesService.getListCourses();
     }

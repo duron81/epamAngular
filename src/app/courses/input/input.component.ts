@@ -9,10 +9,6 @@ export class InputComponent {
   @Output() inputValue = new EventEmitter<string>();
   text: string = '';
 
-  // onInputChange(): void {
-  //   this.inputValue.emit(this.text);
-  // }
-
   onButtonClick() {
     console.log(this.text);
     this.inputValue.emit(this.text);
