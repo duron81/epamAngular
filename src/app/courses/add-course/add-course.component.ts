@@ -1,25 +1,51 @@
-import { Component, } from '@angular/core';
+import { Component, Input, OnInit, } from '@angular/core';
+import { Router } from '@angular/router';
+import { Course } from 'src/app/shared/interfaces/course.interface.';
+import { CourseService } from 'src/app/shared/services/course.service';
 
 @Component({
   selector: 'app-add-course',
   templateUrl: './add-course.component.html',
   styleUrls: ['./add-course.component.css']
 })
-export class AddCourseComponent {
-  title! : string;
-  description! : string;
-  duration! : number;
+export class AddCourseComponent implements OnInit {
+  @Input() id! : number;
+  @Input() title! : string;
+  @Input() description! : string;
+  @Input() duration! : number;
   durationTime! : string;
-  date! : string;
+  @Input() date : Date = new Date(2023, 5, 1);
   authors!: string [];
   showAuthors = false;
+  isEditMode = false;
+
+  constructor(private router: Router, private courseService: CourseService) {}
+
+  ngOnInit(): void {
+    this.isEditMode = !!this.id;
+  }
 
   onCancel(): void {
-    console.log('cancel is clicked');
+    this.router.navigate(['courses']);
   }
 
   onSave(): void {
-    console.log('save is clicked');
+    const course: Course = {
+      id: this.id,
+      title: this.title,
+      creationDate: this.date,
+      duration: this.duration,
+      description: this.description,
+      topRated: false
+    }
+
+    if (this.isEditMode) {
+      this.courseService.updateCourse(course);
+      this.router.navigate(['courses']);
+    } else {
+      this.courseService.createCourse(course);
+      this.router.navigate(['courses']);
+    }
   }
 
   onAddAuthors(): void {

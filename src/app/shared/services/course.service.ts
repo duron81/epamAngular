@@ -6,6 +6,8 @@ import { Course } from '../interfaces/course.interface.';
 })
 export class CourseService {
 
+  idCounter = 3;
+
   constructor() { }
 
   courses: Course[] = [{
@@ -38,6 +40,7 @@ export class CourseService {
   }
 
   createCourse(course: Course): void {
+    course.id = ++this.idCounter;
     this.courses.push(course);
   }
 
@@ -46,11 +49,11 @@ export class CourseService {
   }
 
   updateCourse(courseForUpdate: Course): void {
-    this.courses.map(course => {
+    this.courses = this.courses.map(course => {
       if (course.id === courseForUpdate.id) {
         return {...course, ...courseForUpdate}
       }
-      else return course;
+      return course;
     });
   }
   

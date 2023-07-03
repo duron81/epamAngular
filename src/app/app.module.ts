@@ -22,6 +22,10 @@ import { ModalDeleteComponent } from './courses/modal-delete/modal-delete/modal-
 import { ModalLoginComponent } from './shared/modal/modal-login/modal-login.component';
 import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not-authenticated.directive';
 import { AddCourseComponent } from './courses/add-course/add-course.component';
+import { AppRoutingModule } from './app-routing.module';
+import { PageNotFoundComponent } from './404/page-not-found/page-not-found.component';
+import { EditCourseComponent } from './courses/edit-course/edit-course.component';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -42,12 +46,15 @@ import { AddCourseComponent } from './courses/add-course/add-course.component';
     ModalLoginComponent,
     HideIfNotAuthenticatedDirective,
     AddCourseComponent,
+    PageNotFoundComponent,
+    EditCourseComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    AppRoutingModule,
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -18,7 +18,7 @@ export class AuthenticationService {
   logout(): void {
     localStorage.removeItem("token");
     this.loggedUser = null;
-    window.location.reload();
+    // window.location.reload();
   }
 
   isAuthenticated(): boolean {

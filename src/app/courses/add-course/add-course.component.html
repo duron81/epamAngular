@@ -1,6 +1,6 @@
 <section class="add-course-container">
     <div class="add-course-content">
-        <h2>New Course</h2>
+        <h2>{{isEditMode ? 'Edit Course' : 'New Course'}}</h2>
         <div class="add-course-title">
             <div class="add-course-title-uppr">
                 <label for="title">Title:</label>
@@ -32,7 +32,8 @@
                 <label for="date">Date:</label>
                 <span class="required-message">*required</span>
             </div>
-            <input type="date" id="date" [(ngModel)]="date" name="date" placeholder="MM/DD/YYYY" required>
+            <input type="date" id="date" [(ngModel)]="date" name="date | date:'yyyy-MM-dd'" placeholder="MM/DD/YYYY"
+                required>
         </div>
         <div class="add-course-authors">
             <div class="add-course-authors-uppr">
@@ -49,7 +50,7 @@
         </div>
         <div class="add-course-buttons">
             <button class="button-cancel" (click)="onCancel()">Cancel</button>
-            <button class="button-save" (click)="onSave()">Save</button>
+            <button type="submit" class="button-save" (click)="onSave()">Save</button>
         </div>
     </div>
 </section>

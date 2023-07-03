@@ -5,10 +5,7 @@
             [creationDate]="item.creationDate" [topRated]="item.topRated" (deletedItemId)="onDeleteCourse($event)">
         </app-course-item>
     </li>
-    <app-modal-delete 
-        *ngIf="showModal" 
-        [nameCourse]="titleForDelete" 
-        (closed)="onCloseModal()" 
+    <app-modal-delete *ngIf="showModal" [nameCourse]="titleForDelete" (closed)="onCloseModal()"
         (canceled)="onCancelModal()">
     </app-modal-delete>
     <app-button [label]="'Load more'" (clicked)="onClickLoadMore()" [buttonClass]="'loadMoreButton'"></app-button>

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,12 +17,16 @@ export class CourseItemComponent {
   @Input() topRated?: boolean;
 
   @Output() deletedItemId: EventEmitter<number> = new EventEmitter<number>();
+  @Output() editItemId: EventEmitter<number> = new EventEmitter<number>();
 
-
+  constructor (private router: Router) {}
 
   onDeletedCilck(): void {
     this.deletedItemId.emit(this.id);
   }
 
-  
-}
+  onEditClicked(): void {
+    this.editItemId.emit(this.id);
+    this.router.navigate([`courses/${this.id}`]);
+  }
+ }
