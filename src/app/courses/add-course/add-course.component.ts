@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
-import { Course } from 'src/app/shared/interfaces/course.interface.';
+
 import { CourseService } from 'src/app/shared/services/course.service';
+import { Course } from 'src/app/shared/interfaces/course.interface.';
 
 @Component({
   selector: 'app-add-course',

@@ -10,6 +10,7 @@ export class InputComponent {
   text: string = '';
 
   onButtonClick() {
+    console.log(this.text);
     this.inputValue.emit(this.text);
   }
 }
