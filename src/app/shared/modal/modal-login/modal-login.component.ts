@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../../interfaces/user.interface.';
+
 
 @Component({
   selector: 'app-modal-login',
@@ -9,14 +11,14 @@ import { User } from '../../interfaces/user.interface.';
   styleUrls: ['./modal-login.component.css']
 })
 export class ModalLoginComponent implements OnInit {
-  @Output() userLogged: EventEmitter<void> = new EventEmitter<void>();
+  // @Output() userLogged: EventEmitter<void> = new EventEmitter<void>();
 
   email!: string;
   password!: string;
   isButtonEnabled: boolean = false;
   id: number = 1;
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
     if (this.email && this.password) {
@@ -34,8 +36,10 @@ export class ModalLoginComponent implements OnInit {
       password: this.password
     };
     this.authService.login(newUser);
-    this.userLogged.emit();
+    // this.userLogged.emit();
     this.email = '';
     this.password = '';
+    this.router.navigate(['/courses']);
+    
   }
 }

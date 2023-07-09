@@ -10,7 +10,7 @@
     </div>
     <div class="courseItemLowerBlock">
         <p class="courseItemDescription">{{description}}</p>
-        <app-button label="Edit"></app-button>
+        <app-button label="Edit" (clicked)="onEditClicked()"></app-button>
         <app-button class="buttonDelete" label="Delete" (clicked)="onDeletedCilck()"></app-button>
     </div>
 </div>

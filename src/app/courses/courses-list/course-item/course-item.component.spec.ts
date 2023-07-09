@@ -22,9 +22,9 @@ describe('CourseItemComponent', () => {
         HighlightCreationDateDirective
       ], providers: [DurationPipePipe]
     })
-    // .overrideComponent(CourseItemComponent, {  set: {changeDetection: ChangeDetectionStrategy.Default}
-    // })
-    // .compileComponents();
+    .overrideComponent(CourseItemComponent, {  set: {changeDetection: ChangeDetectionStrategy.Default}
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(CourseItemComponent);
     component = fixture.componentInstance;
@@ -45,30 +45,6 @@ describe('CourseItemComponent', () => {
         expect(descriptionElement.textContent).toEqual(inputValue);
       })
   });
-
-  // it('it should update correctly when input property changes', () => {
-  //     const inputValue = 'test description2';
-  //     component.description = inputValue;
-  //     fixture.detectChanges();
-  //     const descriptionElement = fixture.debugElement.query(By.css('.courseItemDescription')).nativeElement;
-  //     expect(descriptionElement.textContent).toEqual(inputValue);
-  // });
-
-  // it('it should update correctly when input property changes', () => {
-  //   const inputValue = 'test description';
-  //   component.description = inputValue;
-  //   const changeDetectorRef = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef);
-  //   changeDetectorRef.detectChanges();
-  //   const descriptionElement = fixture.debugElement.query(By.css('.courseItemDescription')).nativeElement;
-  //   expect(descriptionElement.textContent).toEqual(inputValue);
-
-  //   const newInputValue = 'new test description';
-  //   component.description = newInputValue;
-  //   const changeDetectorRef2 = fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef);
-  //   changeDetectorRef2.detectChanges();
-  //   const newDescriptionElement = fixture.debugElement.query(By.css('.courseItemDescription')).nativeElement;
-  //   expect(newDescriptionElement.textContent).toEqual(newInputValue);
-  // })
 
   it('it should emit correct event when will be clicked onDeleteItems', () => {
 

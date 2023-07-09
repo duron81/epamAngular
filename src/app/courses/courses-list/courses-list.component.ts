@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Course } from 'src/app/shared/interfaces/course.interface.';
 import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
@@ -45,6 +45,7 @@ export class CoursesListComponent implements OnInit {
     }
     this.showModal = true;
   }
+
 
   onCloseModal(): void {
     console.log(this.courseForDelete);

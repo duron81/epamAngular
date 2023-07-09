@@ -5,10 +5,7 @@ import { AuthenticationService } from '../services/authentication.service';
 
 describe('HideIfNotAuthenticatedDirective', () => {
 
-  // @Injectable()
-  //   class MockService extends AuthenticationService {
 
-  // }
   let mockTemplateRef: TemplateRef<unknown>; 
   let mockViewContainerRef: ViewContainerRef; 
   let mockAuthService: AuthenticationService;

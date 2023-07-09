@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { AuthenticationService } from './shared/services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,22 +10,22 @@ import { AuthenticationService } from './shared/services/authentication.service'
 })
 export class AppComponent implements OnInit {
   title = 'my-app';
-  showLoginModal?: boolean;
   userName = '';
 
-
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService, private router: Router) {}
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
       this.userName = this.authService.getUserLogin();
-      this.showLoginModal = false;
+      this.router.navigate(['/courses']);
     } else {
-      this.showLoginModal = true;
+      this.userName = '';
+      this.router.navigate(['/login']);
     }
   }
 
-  onUserLogged() {
-    this.showLoginModal = false;
-  }
+  // onUserLogged() {
+  //   this.showLoginModal = false;
+  //   console.log('user logged emission');
+  // }
 }

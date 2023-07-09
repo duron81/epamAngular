@@ -1,0 +1,7 @@
+.coursesContainer {
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 50px;
+}
