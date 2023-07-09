@@ -6,7 +6,6 @@ import { AddCourseComponent } from '../add-course/add-course.component';
 import { DurationPipePipe } from 'src/app/shared/pipes/duration-pipe.pipe';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 
-
 describe('EditCourseComponent', () => {
   let component: EditCourseComponent;
   let fixture: ComponentFixture<EditCourseComponent>;
