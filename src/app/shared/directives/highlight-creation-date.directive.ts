@@ -5,7 +5,7 @@ import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 })
 export class HighlightCreationDateDirective implements OnInit {
 
-  @Input() appHighlightCreationDate: Date | undefined = new Date();
+  @Input() appHighlightCreationDate: string = '';
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
@@ -17,10 +17,11 @@ export class HighlightCreationDateDirective implements OnInit {
     const currentDate = new Date();
     const millisecondsIn14days = 14 * 24 * 60 * 60 * 1000;
     if(this.appHighlightCreationDate) {
-      if (this.appHighlightCreationDate < currentDate 
-        && this.appHighlightCreationDate.getTime() >= (currentDate.getTime() - millisecondsIn14days)) {
+      const date = new Date(this.appHighlightCreationDate);
+      if (date < currentDate 
+        && date.getTime() >= (currentDate.getTime() - millisecondsIn14days)) {
           this.renderer.setStyle(this.el.nativeElement, 'border-color', 'green');
-      } else if (this.appHighlightCreationDate > currentDate) {
+      } else if (date > currentDate) {
           this.renderer.setStyle(this.el.nativeElement, 'border-color', 'blue');
       } 
     }

@@ -2,7 +2,8 @@ import { Component, Input, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CourseService } from 'src/app/shared/services/course.service';
-import { Course } from 'src/app/shared/interfaces/course.interface.';
+import { HttpCourse } from 'src/app/shared/interfaces/http-course.interface';
+import { HttpAuthor } from 'src/app/shared/interfaces/http-author.interface';
 
 @Component({
   selector: 'app-add-course',
@@ -31,18 +32,28 @@ export class AddCourseComponent implements OnInit {
   }
 
   onSave(): void {
-    const course: Course = {
-      id: this.id,
-      title: this.title,
-      creationDate: this.date,
-      duration: this.duration,
+
+    let authorsList: HttpAuthor[] = [];
+
+    this.authors.forEach(author => {
+      authorsList.push({
+        id: Math.floor(1000 + Math.random() * 9000),
+        name: author
+      })
+    })
+
+    const course: HttpCourse = {
+      id: Math.floor(1000 + Math.random() * 9000),
+      name: this.title,
+      date: this.date.toString(),
+      length: this.duration,
       description: this.description,
-      topRated: false
+      isTopRated: false,
+      authors: authorsList
     }
 
     if (this.isEditMode) {
-      this.courseService.updateCourse(course);
-      this.router.navigate(['courses']);
+
     } else {
       this.courseService.createCourse(course);
       this.router.navigate(['courses']);

@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../services/authentication.service';
-import { User } from '../../interfaces/user.interface.';
 
 
 @Component({
@@ -17,8 +16,9 @@ export class ModalLoginComponent implements OnInit {
   password!: string;
   isButtonEnabled: boolean = false;
   id: number = 1;
+  token?: ''; 
 
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private router: Router, ) { }
 
   ngOnInit() {
     if (this.email && this.password) {
@@ -30,16 +30,21 @@ export class ModalLoginComponent implements OnInit {
   }
 
   login(): void {
-    const newUser: User = {
-      id: this.id,
-      email: this.email,
-      password: this.password
-    };
-    this.authService.login(newUser);
-    // this.userLogged.emit();
-    this.email = '';
-    this.password = '';
-    this.router.navigate(['/courses']);
-    
+    // const newUser: User = {
+    //   id: this.id,
+    //   email: this.email,
+    //   password: this.password
+    // };
+    // this.authService.login(newUser);
+    // // this.userLogged.emit();
+    // this.email = '';
+    // this.password = '';
+    // this.router.navigate(['/courses']);
+    this.authService.login(this.email, this.password);
+    // console.log(this.token);
+      this.email = '';
+      this.password = '';
+      this.router.navigate(['/courses']);
   }
 }
+

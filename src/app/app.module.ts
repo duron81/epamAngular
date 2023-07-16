@@ -16,8 +16,6 @@ import { CourseItemComponent } from './courses/courses-list/course-item/course-i
 import { ButtonComponent } from './shared/components/button/button.component';
 import { HighlightCreationDateDirective } from './shared/directives/highlight-creation-date.directive';
 import { DurationPipePipe } from './shared/pipes/duration-pipe.pipe';
-import { OrderByPipe } from './shared/pipes/order-by.pipe';
-import { FilterPipe } from './shared/pipes/filter.pipe';
 import { ModalDeleteComponent } from './courses/modal-delete/modal-delete/modal-delete.component';
 import { ModalLoginComponent } from './shared/modal/modal-login/modal-login.component';
 import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not-authenticated.directive';
@@ -26,6 +24,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './404/page-not-found/page-not-found.component';
 import { EditCourseComponent } from './courses/edit-course/edit-course.component';
 import { AuthGuard } from './auth.guard';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './shared/services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,8 +40,6 @@ import { AuthGuard } from './auth.guard';
     ButtonComponent,
     HighlightCreationDateDirective,
     DurationPipePipe,
-    OrderByPipe,
-    FilterPipe,
     ModalDeleteComponent,
     ModalLoginComponent,
     HideIfNotAuthenticatedDirective,
@@ -53,8 +51,12 @@ import { AuthGuard } from './auth.guard';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [AuthGuard],
+  providers: [
+    AuthGuard, 
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

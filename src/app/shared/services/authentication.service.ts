@@ -1,24 +1,36 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import { User } from '../interfaces/user.interface.';
+import { Observable } from 'rxjs';
+
+import { HttpUser } from '../interfaces/http-user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  loggedUser!: User | null;
+  loggedUser!: HttpUser | null;
+  private apiUrl = 'http://localhost:3004';
 
-  login(user: User): void {
-    this.loggedUser = {...user};
-    localStorage.setItem("token", JSON.stringify(this.loggedUser));
-    window.location.reload();
+  constructor(private http: HttpClient) {}
+
+  login(login: string, password: string){
+    this.http
+      .post(
+        `${this.apiUrl}/auth/login`,
+        {login, password},
+      )
+      .subscribe( response => {
+        const token = JSON.parse(JSON.stringify(response)).token;
+        localStorage.setItem("token", token);
+        window.location.reload();
+      })
   }
 
   logout(): void {
     localStorage.removeItem("token");
     this.loggedUser = null;
-    // window.location.reload();
   }
 
   isAuthenticated(): boolean {
@@ -26,9 +38,14 @@ export class AuthenticationService {
     return !!token;
   }
 
-  getUserLogin(): string {
+  getUserLogin(): Observable<Object> {
     const token = localStorage.getItem("token");
-    return token ? JSON.parse(token).email : '';
+
+    return this.http
+      .post(
+        `${this.apiUrl}/auth/userinfo`,
+        {token}
+      );
   }
 
 }

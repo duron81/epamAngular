@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 
-import { Course } from 'src/app/shared/interfaces/course.interface.';
-import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
+import { HttpCourse } from 'src/app/shared/interfaces/http-course.interface';
 import { CourseService } from 'src/app/shared/services/course.service';
 
 @Component({
@@ -9,54 +8,76 @@ import { CourseService } from 'src/app/shared/services/course.service';
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.css']
 })
-export class CoursesListComponent implements OnInit {
+export class CoursesListComponent implements OnInit, OnChanges {
 
   constructor(private coursesService: CourseService) {}
-
+  
   @Input() searchValue: string = '';
-
-  courses: Course[] = [];
-  courseForDelete?: Course;
-  titleForDelete = "";
+  courseForDelete?: HttpCourse;
+  titleForDelete: string = '';
   showModal = false;
-
-
+  listOfCourses: HttpCourse[] = [];
+  
+  
   ngOnInit() {
-      this.courses = this.coursesService.getListCourses();
+    this.coursesService.onFetchCourses().subscribe(
+      courses => {
+        this.listOfCourses = [...courses];
+      }
+    )
   }
-
-  trackByFn(index: number, item: Course): number {
-    return item.id; // Assuming each item has a unique "id" property
-  }
-
-  filterItems(courses: Course[], searchtext: string): Course[] {
-    let filterPipe = new FilterPipe();
-    return filterPipe.transform(courses, searchtext);
+    
+  ngOnChanges() {
+    if (this.searchValue) {
+      this.coursesService.onFetchCoursesWithFilter(this.searchValue).subscribe(
+        courses => {
+          this.listOfCourses = [...courses];
+        }
+      )
+    } else {
+      this.coursesService.onFetchCourses().subscribe(
+        courses => {
+          this.listOfCourses = [...courses];
+        }
+      )
+    }
   }
 
   onClickLoadMore(): void {
-    console.log('clicked');
+    this.coursesService.onLoadAdditionalCourses();
+    this.coursesService.onFetchCourses().subscribe(
+      course => {
+        this.listOfCourses = [...course];
+      }
+    )
   }
 
   onDeleteCourse(id: number): void {
-    this.courseForDelete = this.coursesService.getCourseById(id);
-    if (this.courseForDelete) {
-      this.titleForDelete = this.courseForDelete.title;
-    }
+    this.coursesService.getCourseById(id).subscribe(
+      response => {
+        this.courseForDelete = response;
+        this.titleForDelete = this.courseForDelete.name;
+      }
+    );  
     this.showModal = true;
   }
 
 
   onCloseModal(): void {
-    console.log(this.courseForDelete);
     if (this.courseForDelete) {
       this.coursesService.removeCourse(this.courseForDelete.id);
-      this.courses = this.coursesService.getListCourses();
     }
+    this.titleForDelete = '';
     this.showModal = false;
+    this.coursesService.onFetchCourses().subscribe(
+      courses => {
+        this.listOfCourses = [...courses];
+      }
+    )
   }
 
   onCancelModal(): void {
+    this.titleForDelete = '';
     this.showModal = false;
   }
 }

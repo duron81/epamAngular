@@ -16,16 +16,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
-      this.userName = this.authService.getUserLogin();
-      this.router.navigate(['/courses']);
+      this.authService.getUserLogin().subscribe(response => {
+        this.userName = JSON.parse(JSON.stringify(response)).name.first;
+        this.router.navigate(['/courses']);
+      })
     } else {
       this.userName = '';
       this.router.navigate(['/login']);
     }
   }
-
-  // onUserLogged() {
-  //   this.showLoginModal = false;
-  //   console.log('user logged emission');
-  // }
 }

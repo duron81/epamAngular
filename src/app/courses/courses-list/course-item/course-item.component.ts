@@ -12,7 +12,7 @@ export class CourseItemComponent {
   @Input() title = '';
   @Input() description = '';
   @Input() duration!: number;
-  @Input() creationDate!: Date;
+  @Input() creationDate!: string;
   @Input() id?: number;
   @Input() topRated?: boolean;
 
@@ -26,6 +26,7 @@ export class CourseItemComponent {
   }
 
   onEditClicked(): void {
+    console.log('edit');
     this.editItemId.emit(this.id);
     this.router.navigate([`courses/${this.id}`]);
   }
