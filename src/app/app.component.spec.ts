@@ -11,8 +11,6 @@ import { CourseItemComponent } from './courses/courses-list/course-item/course-i
 import { FooterComponent } from './footer/footer.component';
 import { LogoComponent } from './header/logo/logo.component';
 import { ButtonComponent } from './shared/components/button/button.component';
-import { FilterPipe } from './shared/pipes/filter.pipe';
-import { OrderByPipe } from './shared/pipes/order-by.pipe';
 
 
 
@@ -38,9 +36,8 @@ describe('AppComponent', () => {
       CourseItemComponent,
       FooterComponent,
       LogoComponent,
-      ButtonComponent,
-      OrderByPipe],
-    providers: [FilterPipe]
+      ButtonComponent],
+    providers: []
   }));
 
   it('should create the app', () => {
