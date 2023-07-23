@@ -26,7 +26,6 @@ export class CourseItemComponent {
   }
 
   onEditClicked(): void {
-    console.log('edit');
     this.editItemId.emit(this.id);
     this.router.navigate([`courses/${this.id}`]);
   }

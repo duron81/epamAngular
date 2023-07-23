@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../services/authentication.service';
+import { CourseService } from '../../services/course.service';
 
 
 @Component({
@@ -18,7 +19,11 @@ export class ModalLoginComponent implements OnInit {
   id: number = 1;
   token?: ''; 
 
-  constructor(private authService: AuthenticationService, private router: Router, ) { }
+  constructor(
+    private authService: AuthenticationService, 
+    private courseService: CourseService, 
+    private router: Router
+  ) { }
 
   ngOnInit() {
     if (this.email && this.password) {
@@ -30,21 +35,14 @@ export class ModalLoginComponent implements OnInit {
   }
 
   login(): void {
-    // const newUser: User = {
-    //   id: this.id,
-    //   email: this.email,
-    //   password: this.password
-    // };
-    // this.authService.login(newUser);
-    // // this.userLogged.emit();
-    // this.email = '';
-    // this.password = '';
-    // this.router.navigate(['/courses']);
+    this.courseService.loadingSubject.next(true);
     this.authService.login(this.email, this.password);
-    // console.log(this.token);
-      this.email = '';
-      this.password = '';
-      this.router.navigate(['/courses']);
+    this.email = '';
+    this.password = '';
+    console.log('login comp');
+    // this.router.navigate(['/courses']);
+    window.location.reload();
+    this.courseService.loadingSubject.next(false);
   }
 }
 

@@ -7,6 +7,7 @@ import { AddCourseComponent } from './courses/add-course/add-course.component';
 import { PageNotFoundComponent } from './404/page-not-found/page-not-found.component';
 import { ModalLoginComponent } from './shared/modal/modal-login/modal-login.component';
 import { EditCourseComponent } from './courses/edit-course/edit-course.component';
+import { CoursesComponent } from './courses/courses.component';
 
 
 const routes: Routes = [

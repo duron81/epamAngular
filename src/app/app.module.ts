@@ -26,6 +26,7 @@ import { EditCourseComponent } from './courses/edit-course/edit-course.component
 import { AuthGuard } from './auth.guard';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './shared/services/auth.interceptor';
+import { LoadingBlockComponent } from './loading-block/loading-block.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { AuthInterceptor } from './shared/services/auth.interceptor';
     AddCourseComponent,
     PageNotFoundComponent,
     EditCourseComponent,
+    LoadingBlockComponent,
   ],
   imports: [
     BrowserModule,

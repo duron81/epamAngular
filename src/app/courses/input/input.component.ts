@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+
+import { CourseService } from 'src/app/shared/services/course.service';
 
 @Component({
   selector: 'app-input',
@@ -6,11 +8,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./input.component.css']
 })
 export class InputComponent {
-  @Output() inputValue = new EventEmitter<string>();
-  text: string = '';
 
-  onButtonClick() {
-    console.log(this.text);
-    this.inputValue.emit(this.text);
+  constructor(private courseService: CourseService) {}
+
+  onKeyUp(value: string) {
+      this.courseService.inputSubject.next(value);
   }
+
 }

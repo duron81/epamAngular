@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, last } from 'rxjs';
 
 import { HttpUser } from '../interfaces/http-user.interface';
 
@@ -12,6 +12,9 @@ export class AuthenticationService {
 
   loggedUser!: HttpUser | null;
   private apiUrl = 'http://localhost:3004';
+  userSubject = new Subject<HttpUser>();
+  isAuthSubject = new BehaviorSubject<boolean>(false);
+  isAuthenticated$: Observable<boolean> = this.isAuthSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +27,6 @@ export class AuthenticationService {
       .subscribe( response => {
         const token = JSON.parse(JSON.stringify(response)).token;
         localStorage.setItem("token", token);
-        window.location.reload();
       })
   }
 
@@ -35,6 +37,7 @@ export class AuthenticationService {
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem("token");
+    this.isAuthSubject.next(!!token);
     return !!token;
   }
 
