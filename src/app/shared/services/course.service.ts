@@ -3,6 +3,7 @@ import { HttpClient} from '@angular/common/http'
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { HttpCourse } from '../interfaces/http-course.interface';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,21 +11,29 @@ import { HttpCourse } from '../interfaces/http-course.interface';
 export class CourseService {
 
   idCounter = 3;
-  private quanityOfVisibleCourses = 3;
+  inputSubject = new BehaviorSubject<string>('');
+  coursesSubject = new Subject<HttpCourse[]>();
   private apiUrl = 'http://localhost:3004';
-  inputSubject = new Subject<string>();
-  loadingSubject = new Subject<boolean>();
+  private quanityOfVisibleCourses = 3;
 
-  constructor(private http: HttpClient) {
-    this.inputSubject = new BehaviorSubject<string>('');
-   }
+  constructor(private http: HttpClient, private loadingService: LoadingService) {}
 
-  onFetchCourses(): Observable<HttpCourse[]> {
-    return this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?start=0&count=${this.quanityOfVisibleCourses}`)
+  onFetchCourses() {
+    this.loadingService.loadingSubject.next(true);
+    this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?start=0&count=${this.quanityOfVisibleCourses}`)
+      .subscribe(response => {
+        this.coursesSubject.next(response);
+      })
+    this.loadingService.loadingSubject.next(false);
   }
 
   onFetchCoursesWithFilter(textFragment: string): Observable<HttpCourse[]> {
-    return this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?textFragment=${textFragment}`)
+    this.loadingService.loadingSubject.next(true);
+    let obs = this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?textFragment=${textFragment}`)
+    if (obs) {
+      this.loadingService.loadingSubject.next(false);
+    }
+    return obs;
   }
 
   onLoadAdditionalCourses() {
@@ -33,10 +42,7 @@ export class CourseService {
   }
 
   createCourse(course: HttpCourse) {
-    this.http.post<HttpCourse>(`${this.apiUrl}/courses`, course)
-      .subscribe(response => {
-        console.log('response is ' + response);
-      })
+    return this.http.post<HttpCourse>(`${this.apiUrl}/courses`, course)
   }
 
   getCourseById(id: number): Observable<HttpCourse> {
@@ -48,9 +54,11 @@ export class CourseService {
   }
   
   removeCourse(id: number) {
+    this.loadingService.loadingSubject.next(true);
     this.http.delete<HttpCourse>(`${this.apiUrl}/courses/${id}`)
       .subscribe(response => {
       })
+      this.loadingService.loadingSubject.next(false);
   }
   
 }

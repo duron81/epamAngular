@@ -1,4 +1,4 @@
-<div *ngIf="loading">
+<div *ngIf="(loading | async)">
     <app-loading-block></app-loading-block>
 </div>
 <app-header></app-header>

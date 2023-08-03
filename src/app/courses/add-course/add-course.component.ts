@@ -1,9 +1,11 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { CourseService } from 'src/app/shared/services/course.service';
-import { HttpCourse } from 'src/app/shared/interfaces/http-course.interface';
-import { HttpAuthor } from 'src/app/shared/interfaces/http-author.interface';
+import { v4 as uuidv4 } from "uuid";
+
+import { CourseService } from '../../shared/services/course.service';
+import { HttpCourse } from '../../shared/interfaces/http-course.interface';
+import { HttpAuthor } from '../../shared/interfaces/http-author.interface';
 
 @Component({
   selector: 'app-add-course',
@@ -15,8 +17,8 @@ export class AddCourseComponent implements OnInit {
   @Input() title! : string;
   @Input() description! : string;
   @Input() duration! : number;
-  durationTime! : string;
   @Input() date : Date = new Date(2023, 5, 1);
+  durationTime! : string;
   authors!: string [];
   showAuthors = false;
   isEditMode = false;
@@ -37,13 +39,13 @@ export class AddCourseComponent implements OnInit {
 
     this.authors.forEach(author => {
       authorsList.push({
-        id: Math.floor(1000 + Math.random() * 9000),
+        id: parseInt(uuidv4().substr(0, 8), 16),
         name: author
       })
     })
 
     const course: HttpCourse = {
-      id: Math.floor(1000 + Math.random() * 9000),
+      id: parseInt(uuidv4().substr(0, 8), 16),
       name: this.title,
       date: this.date.toString(),
       length: this.duration,
@@ -53,9 +55,13 @@ export class AddCourseComponent implements OnInit {
     }
 
     if (this.isEditMode) {
-
+      
     } else {
-      this.courseService.createCourse(course);
+      this.courseService.createCourse(course).subscribe(
+        (response) => {},
+        (error) => {
+          console.error('Error fetching data:', error);
+        }); 
       this.router.navigate(['courses']);
     }
   }

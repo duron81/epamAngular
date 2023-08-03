@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
-import { BehaviorSubject, Observable, Subject, last } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { HttpUser } from '../interfaces/http-user.interface';
 
@@ -11,33 +12,34 @@ import { HttpUser } from '../interfaces/http-user.interface';
 export class AuthenticationService {
 
   loggedUser!: HttpUser | null;
-  private apiUrl = 'http://localhost:3004';
   userSubject = new Subject<HttpUser>();
+  isUserLogged = new Subject<boolean>();
   isAuthSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$: Observable<boolean> = this.isAuthSubject.asObservable();
+  private apiUrl = 'http://localhost:3004';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(login: string, password: string){
-    this.http
+    return this.http
       .post(
         `${this.apiUrl}/auth/login`,
         {login, password},
       )
-      .subscribe( response => {
-        const token = JSON.parse(JSON.stringify(response)).token;
-        localStorage.setItem("token", token);
-      })
   }
 
   logout(): void {
     localStorage.removeItem("token");
+    this.isUserLogged.next(false);
     this.loggedUser = null;
   }
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem("token");
     this.isAuthSubject.next(!!token);
+    this.getUserLogin().subscribe(response => {
+      this.userSubject.next(JSON.parse(JSON.stringify(response)));
+    })
     return !!token;
   }
 

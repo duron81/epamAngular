@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthenticationService } from '../../services/authentication.service';
-import { CourseService } from '../../services/course.service';
+import { AuthenticationService } from 'services/authentication.service';
+import { CourseService } from 'services/course.service';
+import { LoadingService } from 'services/loading.service';
 
 
 @Component({
@@ -11,18 +12,17 @@ import { CourseService } from '../../services/course.service';
   styleUrls: ['./modal-login.component.css']
 })
 export class ModalLoginComponent implements OnInit {
-  // @Output() userLogged: EventEmitter<void> = new EventEmitter<void>();
 
   email!: string;
   password!: string;
   isButtonEnabled: boolean = false;
   id: number = 1;
-  token?: ''; 
+  token?: string; 
 
   constructor(
     private authService: AuthenticationService, 
-    private courseService: CourseService, 
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) { }
 
   ngOnInit() {
@@ -35,14 +35,23 @@ export class ModalLoginComponent implements OnInit {
   }
 
   login(): void {
-    this.courseService.loadingSubject.next(true);
-    this.authService.login(this.email, this.password);
+    this.loadingService.loadingSubject.next(true);
+    this.authService.login(this.email, this.password).subscribe( 
+      (response) => {
+        const token = JSON.parse(JSON.stringify(response)).token;
+        localStorage.setItem("token", token);
+        this.authService.getUserLogin().subscribe(response => {
+          this.authService.userSubject.next(JSON.parse(JSON.stringify(response)));
+        })
+        this.authService.isUserLogged.next(true);
+        this.router.navigate(['/courses']);
+      },
+      (error) => {
+        console.error('Error fetching data:', error);
+      });
     this.email = '';
     this.password = '';
-    console.log('login comp');
-    // this.router.navigate(['/courses']);
-    window.location.reload();
-    this.courseService.loadingSubject.next(false);
+    this.loadingService.loadingSubject.next(false);
   }
 }
 

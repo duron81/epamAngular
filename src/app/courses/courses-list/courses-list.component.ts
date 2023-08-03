@@ -1,15 +1,16 @@
-import { Component, OnInit, Input, OnChanges, OnDestroy } from '@angular/core';
-import { debounceTime } from 'rxjs';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subscription, debounceTime, filter } from 'rxjs';
 
 import { HttpCourse } from 'src/app/shared/interfaces/http-course.interface';
 import { CourseService } from 'src/app/shared/services/course.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.css']
 })
-export class CoursesListComponent implements OnInit, OnChanges {
+export class CoursesListComponent implements OnInit, OnDestroy {
 
   @Input() searchValue: string = '';
   courseForDelete?: HttpCourse;
@@ -18,56 +19,37 @@ export class CoursesListComponent implements OnInit, OnChanges {
   listOfCourses: HttpCourse[] = [];
   inputValue = '';
   debounceTimeValue = 500;
+  subscriptionForInput?: Subscription;
+  subscriptionForCourses?: Subscription;
 
-  constructor(private courseService: CourseService ) {
+  constructor(private courseService: CourseService, private loadingService: LoadingService ) {
     
   }
   
   ngOnInit() {
-    this.courseService.loadingSubject.next(true);
-    this.courseService.onFetchCourses()
-    .subscribe(
-      courses => {
-        this.listOfCourses = [...courses];
-      }
-    )
-    this.courseService.loadingSubject.next(false);
-  }
-    
-  ngOnChanges() {
-    this.courseService.inputSubject
+    this.courseService.onFetchCourses();
+
+    this.subscriptionForCourses = this.courseService.coursesSubject.
+      subscribe(response => {
+        this.listOfCourses = response;
+    })
+
+    this.subscriptionForInput = this.courseService.inputSubject
     .pipe(debounceTime(this.debounceTimeValue))
+    .pipe(filter(input => input.length >= 3))
     .subscribe(value => {
-      this.inputValue = value;
-      if (this.inputValue.length >= 3) {
-        this.courseService.loadingSubject.next(true);
-        this.courseService.onFetchCoursesWithFilter(this.inputValue).subscribe(
+        this.courseService.onFetchCoursesWithFilter(value).subscribe(
           courses => {
             this.listOfCourses = [...courses];
           }
         )
-        this.courseService.loadingSubject.next(false);
-      } else {
-        this.courseService.loadingSubject.next(true);
-        this.courseService.onFetchCourses().subscribe(
-          courses => {
-            this.listOfCourses = [...courses];
-          }
-        )
-        this.courseService.loadingSubject.next(false);
-      }
     })
   }
 
   onClickLoadMore(): void {
     this.courseService.onLoadAdditionalCourses();
-    this.courseService.onFetchCourses().subscribe(
-      course => {
-        this.listOfCourses = [...course];
-      }
-    )
   }
-
+  
   onDeleteCourse(id: number): void {
     this.courseService.getCourseById(id).subscribe(
       response => {
@@ -77,26 +59,29 @@ export class CoursesListComponent implements OnInit, OnChanges {
     );  
     this.showModal = true;
   }
-
-
+  
+  
   onCloseModal(): void {
-    this.courseService.loadingSubject.next(true);
     if (this.courseForDelete) {
       this.courseService.removeCourse(this.courseForDelete.id);
     }
     this.titleForDelete = '';
     this.showModal = false;
-    this.courseService.onFetchCourses().subscribe(
-      courses => {
-        this.listOfCourses = [...courses];
-      }
-    )
-    this.courseService.loadingSubject.next(false);
+    this.courseService.onFetchCourses();
   }
 
   onCancelModal(): void {
     this.titleForDelete = '';
     this.showModal = false;
   }
+  
+  ngOnDestroy(): void {
+    if (this.subscriptionForInput) {
+      this.subscriptionForInput.unsubscribe();
+    }
 
+    if (this.subscriptionForCourses) {
+      this.subscriptionForCourses.unsubscribe();
+    }
+  }
 }

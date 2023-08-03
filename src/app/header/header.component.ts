@@ -1,7 +1,8 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../shared/services/authentication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,12 @@ import { AuthenticationService } from '../shared/services/authentication.service
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   userName: string = '';
+  authUserSubscribtion?: Subscription;
 
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   ngOnInit(): void {
-    this.authService.userSubject.subscribe(
+    this.authUserSubscribtion = this.authService.userSubject.subscribe(
       value => {
         this.userName = value.name.first;
       }
@@ -28,6 +30,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authService.userSubject.unsubscribe();
+    this.authUserSubscribtion?.unsubscribe();
   }
 }

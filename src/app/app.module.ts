@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { CourseService } from './shared/services/course.service';
 import { AuthenticationService } from './shared/services/authentication.service';
@@ -23,8 +24,6 @@ import { AddCourseComponent } from './courses/add-course/add-course.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './404/page-not-found/page-not-found.component';
 import { EditCourseComponent } from './courses/edit-course/edit-course.component';
-import { AuthGuard } from './auth.guard';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './shared/services/auth.interceptor';
 import { LoadingBlockComponent } from './loading-block/loading-block.component';
 
@@ -56,7 +55,6 @@ import { LoadingBlockComponent } from './loading-block/loading-block.component';
     HttpClientModule
   ],
   providers: [
-    AuthGuard, 
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

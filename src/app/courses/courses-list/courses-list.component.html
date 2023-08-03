@@ -1,6 +1,5 @@
 <ul class="coursesList">
-    <div class="noCourses" *ngIf="listOfCourses.length === 0">No data feel free to enter new course</div>
-    <div *ngIf="listOfCourses">
+    <div *ngIf="listOfCourses; else noCoursesBlock">
         <li *ngFor="let item of listOfCourses">
             <app-course-item [id]="item.id" [title]="item.name" [description]="item.description"
                 [duration]="item.length" [topRated]="item.isTopRated" [creationDate]="item.date"
@@ -8,6 +7,9 @@
             </app-course-item>
         </li>
     </div>
+    <ng-template #noCoursesBlock>
+        <div class="noCourses" *ngIf="listOfCourses.length === 0">No data feel free to enter new course</div>
+    </ng-template>
     <app-modal-delete *ngIf="showModal" [nameCourse]="titleForDelete" (closed)="onCloseModal()"
         (canceled)="onCancelModal()">
     </app-modal-delete>
