@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient} from '@angular/common/http'
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, debounceTime } from 'rxjs';
 
 import { HttpCourse } from '../interfaces/http-course.interface';
 import { LoadingService } from './loading.service';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,11 @@ export class CourseService {
 
   onFetchCourses() {
     this.loadingService.loadingSubject.next(true);
-    this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?start=0&count=${this.quanityOfVisibleCourses}`)
-      .subscribe(response => {
-        this.coursesSubject.next(response);
-      })
-    this.loadingService.loadingSubject.next(false);
+    let obs = this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?start=0&count=${this.quanityOfVisibleCourses}`)
+    if (obs) {
+      this.loadingService.loadingSubject.next(false);
+    }
+    return obs;
   }
 
   onFetchCoursesWithFilter(textFragment: string): Observable<HttpCourse[]> {
@@ -38,7 +39,6 @@ export class CourseService {
 
   onLoadAdditionalCourses() {
     this.quanityOfVisibleCourses += 3;
-    this.onFetchCourses();
   }
 
   createCourse(course: HttpCourse) {
@@ -55,10 +55,11 @@ export class CourseService {
   
   removeCourse(id: number) {
     this.loadingService.loadingSubject.next(true);
-    this.http.delete<HttpCourse>(`${this.apiUrl}/courses/${id}`)
-      .subscribe(response => {
-      })
+    let obs = this.http.delete<HttpCourse>(`${this.apiUrl}/courses/${id}`);
+    if (obs) {
       this.loadingService.loadingSubject.next(false);
+    }
+    return obs;
   }
   
 }

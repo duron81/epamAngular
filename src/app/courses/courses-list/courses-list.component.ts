@@ -27,7 +27,9 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit() {
-    this.courseService.onFetchCourses();
+    this.courseService.onFetchCourses().subscribe(response => {
+          this.courseService.coursesSubject.next(response);
+    });
 
     this.subscriptionForCourses = this.courseService.coursesSubject.
       subscribe(response => {
@@ -40,7 +42,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     .subscribe(value => {
         this.courseService.onFetchCoursesWithFilter(value).subscribe(
           courses => {
-            this.listOfCourses = [...courses];
+            this.listOfCourses = courses;
           }
         )
     })
@@ -48,6 +50,9 @@ export class CoursesListComponent implements OnInit, OnDestroy {
 
   onClickLoadMore(): void {
     this.courseService.onLoadAdditionalCourses();
+    this.courseService.onFetchCourses().subscribe(response => {
+      this.courseService.coursesSubject.next(response);
+    });
   }
   
   onDeleteCourse(id: number): void {
@@ -63,11 +68,14 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   
   onCloseModal(): void {
     if (this.courseForDelete) {
-      this.courseService.removeCourse(this.courseForDelete.id);
+      this.courseService.removeCourse(this.courseForDelete.id)
+      .subscribe(response => {})
     }
     this.titleForDelete = '';
     this.showModal = false;
-    this.courseService.onFetchCourses();
+    this.courseService.onFetchCourses().subscribe(response => {
+      this.courseService.coursesSubject.next(response);
+    });
   }
 
   onCancelModal(): void {

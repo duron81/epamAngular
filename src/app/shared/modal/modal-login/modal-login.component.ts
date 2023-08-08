@@ -1,9 +1,9 @@
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthenticationService } from 'services/authentication.service';
-import { CourseService } from 'services/course.service';
-import { LoadingService } from 'services/loading.service';
+import { AuthenticationService } from '@services/authentication.service';
+import { LoadingService } from '@services/loading.service';
+import { concatMap, map, mergeMap } from 'rxjs';
 
 
 @Component({
@@ -36,19 +36,28 @@ export class ModalLoginComponent implements OnInit {
 
   login(): void {
     this.loadingService.loadingSubject.next(true);
-    this.authService.login(this.email, this.password).subscribe( 
-      (response) => {
-        const token = JSON.parse(JSON.stringify(response)).token;
-        localStorage.setItem("token", token);
-        this.authService.getUserLogin().subscribe(response => {
-          this.authService.userSubject.next(JSON.parse(JSON.stringify(response)));
-        })
-        this.authService.isUserLogged.next(true);
-        this.router.navigate(['/courses']);
-      },
-      (error) => {
-        console.error('Error fetching data:', error);
-      });
+    this.authService.login(this.email, this.password);
+      // .pipe(map (response => {
+      //   const token = JSON.parse(JSON.stringify(response)).token;
+      //   localStorage.setItem("token", token);
+      //   return response;
+      // }))
+      // .pipe(map (response => {
+      //   this.authService.getUser()
+      //     .subscribe(res => {
+      //       this.authService.userSubject.next(JSON.parse(JSON.stringify(res)));
+      //     })
+      //   return response;
+      // }))
+      // .subscribe(
+      //   (response) => {
+      //     this.authService.isUserLogged.next(true);
+      //     this.router.navigate(['/courses']);
+      //   },
+      //   (error) => {
+      //     console.error('Error fetching data:', error);
+      //   }
+      // );
     this.email = '';
     this.password = '';
     this.loadingService.loadingSubject.next(false);

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { Subscription } from 'rxjs';
+import { HttpUser } from '../shared/interfaces/http-user.interface';
 
 @Component({
   selector: 'app-header',
@@ -16,11 +17,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   ngOnInit(): void {
-    this.authUserSubscribtion = this.authService.userSubject.subscribe(
-      value => {
-        this.userName = value.name.first;
-      }
-    )
+    this.authUserSubscribtion = this.authService.userSubject
+      .subscribe(user => {
+        this.userName = user.name.first
+    });
   }
 
   onLogOut(): void {

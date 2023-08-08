@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthenticationService } from './shared/services/authentication.service';
 import { Router } from '@angular/router';
@@ -17,10 +17,18 @@ export class AppComponent implements OnInit {
   loading!: Observable<boolean>;
 
   constructor(
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private authService: AuthenticationService
   ) {}
+
   
   ngOnInit(): void {
     this.loading = this.loadingService.loadingSubject.asObservable();
+
+    this.authService.getUser()
+      .subscribe(res => {
+        this.authService.userSubject.next(JSON.parse(JSON.stringify(res)));
+      });
   }
+
 }
