@@ -21,6 +21,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   debounceTimeValue = 500;
   subscriptionForInput?: Subscription;
   subscriptionForCourses?: Subscription;
+  subscriptionForCourseService?: Subscription;
 
   constructor(private courseService: CourseService, private loadingService: LoadingService ) {
     
@@ -73,7 +74,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     }
     this.titleForDelete = '';
     this.showModal = false;
-    this.courseService.onFetchCourses().subscribe(response => {
+    this.subscriptionForCourseService = this.courseService.onFetchCourses().subscribe(response => {
       this.courseService.coursesSubject.next(response);
     });
   }
@@ -90,6 +91,10 @@ export class CoursesListComponent implements OnInit, OnDestroy {
 
     if (this.subscriptionForCourses) {
       this.subscriptionForCourses.unsubscribe();
+    }
+
+    if (this.subscriptionForCourseService) {
+      this.subscriptionForCourseService.unsubscribe();
     }
   }
 }

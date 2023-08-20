@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { BehaviorSubject, Observable, Subject, concatMap, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, concatMap, map, takeUntil } from 'rxjs';
 
 import { HttpUser } from '../interfaces/http-user.interface';
 
@@ -12,10 +12,10 @@ import { HttpUser } from '../interfaces/http-user.interface';
 export class AuthenticationService implements OnDestroy {
 
   loggedUser!: HttpUser | null;
-  userSubject = new Subject<HttpUser>();
   isUserLogged = new Subject<boolean>();
   isAuthSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$: Observable<boolean> = this.isAuthSubject.asObservable();
+  private userSubject = new Subject<HttpUser>();
   private apiUrl = 'http://localhost:3004';
   private destroy$ = new Subject<void>();
 
@@ -25,8 +25,16 @@ export class AuthenticationService implements OnDestroy {
     this.destroy$.next();
   }
 
+  getUserSubject() {
+    return this.userSubject.asObservable();
+  }
+
+  setUserSubject(user: HttpUser) {
+    this.userSubject.next(user);
+  }
+
   login(login: string, password: string){
-    this.http
+    return this.http
       .post(
         `${this.apiUrl}/auth/login`,
         {login, password},
@@ -34,24 +42,15 @@ export class AuthenticationService implements OnDestroy {
       .pipe(map (response => {
         const token = JSON.parse(JSON.stringify(response)).token;
         localStorage.setItem("token", token);
-        return response;
-      }))
-      .pipe(map (response => {
         this.getUser()
+          .pipe(res => {
+            return res;
+          }, takeUntil(this.destroy$))
           .subscribe(res => {
             this.userSubject.next(JSON.parse(JSON.stringify(res)));
           })
         return response;
-      }))
-      .subscribe(
-        (response) => {
-          this.isUserLogged.next(true);
-          this.router.navigate(['/courses']);
-        },
-        (error) => {
-          console.error('Error fetching data:', error);
-        }
-      );
+      }), takeUntil(this.destroy$));
   }
 
   logout(): void {

@@ -20,19 +20,21 @@ export class CourseService {
   constructor(private http: HttpClient, private loadingService: LoadingService) {}
 
   onFetchCourses() {
-    this.loadingService.loadingSubject.next(true);
-    let obs = this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?start=0&count=${this.quanityOfVisibleCourses}`)
-    if (obs) {
-      this.loadingService.loadingSubject.next(false);
-    }
-    return obs;
+    this.loadingService.setLoadingSubject(true);
+    return this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?start=0&count=${this.quanityOfVisibleCourses}`)
+      .pipe(response => {
+        if (response) {
+          this.loadingService.setLoadingSubject(false);
+        }
+        return response;
+      })
   }
 
   onFetchCoursesWithFilter(textFragment: string): Observable<HttpCourse[]> {
-    this.loadingService.loadingSubject.next(true);
+    this.loadingService.setLoadingSubject(true);
     let obs = this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?textFragment=${textFragment}`)
     if (obs) {
-      this.loadingService.loadingSubject.next(false);
+      this.loadingService.setLoadingSubject(false);
     }
     return obs;
   }
@@ -54,10 +56,10 @@ export class CourseService {
   }
   
   removeCourse(id: number) {
-    this.loadingService.loadingSubject.next(true);
+    this.loadingService.setLoadingSubject(true);
     let obs = this.http.delete<HttpCourse>(`${this.apiUrl}/courses/${id}`);
     if (obs) {
-      this.loadingService.loadingSubject.next(false);
+      this.loadingService.setLoadingSubject(false);
     }
     return obs;
   }

@@ -1,8 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AuthenticationService } from './shared/services/authentication.service';
-import { Router } from '@angular/router';
-import { CourseService } from './shared/services/course.service';
 import { Observable } from 'rxjs';
 import { LoadingService } from './shared/services/loading.service';
 
@@ -23,11 +21,11 @@ export class AppComponent implements OnInit {
 
   
   ngOnInit(): void {
-    this.loading = this.loadingService.loadingSubject.asObservable();
+    this.loading = this.loadingService.getLoadingSubject();
 
     this.authService.getUser()
       .subscribe(res => {
-        this.authService.userSubject.next(JSON.parse(JSON.stringify(res)));
+        this.authService.setUserSubject(JSON.parse(JSON.stringify(res)));
       });
   }
 
