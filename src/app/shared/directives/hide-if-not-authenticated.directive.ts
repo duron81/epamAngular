@@ -1,4 +1,4 @@
-import { Directive, HostListener, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive,  OnChanges, OnInit, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -27,9 +27,7 @@ export class HideIfNotAuthenticatedDirective implements OnInit, OnChanges {
 
     if (shouldHide) {
       this.viewContainer.clear();
-      // console.log('should not be rendered in custom directive');
     } else {
-      // console.log('should render in custom directive');
       this.viewContainer.createEmbeddedView(this.templateRef);
     }
   }

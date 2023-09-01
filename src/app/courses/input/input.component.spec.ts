@@ -23,18 +23,6 @@ describe('InputComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call method onButtonClicked during button clicked', () => {
-    spyOn(component, 'onButtonClick');
-    const buttonElement = fixture.nativeElement.querySelector('button');
-    buttonElement.click();
-    expect(component.onButtonClick).toHaveBeenCalled();
-  });
 
-  it('should console log the result in onButtonClicked method', () => {
-    component.text = 'some text';
-    spyOn(console, 'log');
-    component.onButtonClick();
-    expect(console.log).toHaveBeenCalledWith('some text')
-  })
 
 });

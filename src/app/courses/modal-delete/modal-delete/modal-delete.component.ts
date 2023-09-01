@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class ModalDeleteComponent {
   @Input() nameCourse?: string;
   @Output() canceled: EventEmitter<void> = new EventEmitter<void>();
-  @Output() closed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() closed: EventEmitter<number> = new EventEmitter<number>();
 
   onCancel(): void {
     this.canceled.emit();

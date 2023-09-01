@@ -25,13 +25,16 @@ export class EditCourseComponent implements OnInit {
 
   getCourse(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    const course = this.courseService.getCourseById(this.id);
-    if (course) {
-      this.description = course.description;
-      this.duration = course.duration;
-      this.date = course.creationDate;
-      this.title = course.title;
-    }
-    this.breadcrumbs += `/${this.title}`
+    this.courseService.getCourseById(this.id).subscribe(
+      response => {
+        if (response) {
+          this.description = response.description;
+          this.duration = response.length;
+          this.date = new Date(response.date);
+          this.title = response.name;
+        }
+        this.breadcrumbs += `/${this.title}`
+      }
+    )
   }
 }

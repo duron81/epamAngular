@@ -12,7 +12,7 @@ export class CourseItemComponent {
   @Input() title = '';
   @Input() description = '';
   @Input() duration!: number;
-  @Input() creationDate!: Date;
+  @Input() creationDate!: string;
   @Input() id?: number;
   @Input() topRated?: boolean;
 

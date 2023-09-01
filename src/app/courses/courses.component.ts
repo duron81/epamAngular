@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,7 +19,5 @@ export class CoursesComponent {
   onAddNewCourse(): void {
     this.router.navigate(['/courses/new']);
   }
-
-
 
 }

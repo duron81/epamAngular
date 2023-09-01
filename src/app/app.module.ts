@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { CourseService } from './shared/services/course.service';
 import { AuthenticationService } from './shared/services/authentication.service';
@@ -16,8 +17,6 @@ import { CourseItemComponent } from './courses/courses-list/course-item/course-i
 import { ButtonComponent } from './shared/components/button/button.component';
 import { HighlightCreationDateDirective } from './shared/directives/highlight-creation-date.directive';
 import { DurationPipePipe } from './shared/pipes/duration-pipe.pipe';
-import { OrderByPipe } from './shared/pipes/order-by.pipe';
-import { FilterPipe } from './shared/pipes/filter.pipe';
 import { ModalDeleteComponent } from './courses/modal-delete/modal-delete/modal-delete.component';
 import { ModalLoginComponent } from './shared/modal/modal-login/modal-login.component';
 import { HideIfNotAuthenticatedDirective } from './shared/directives/hide-if-not-authenticated.directive';
@@ -25,7 +24,8 @@ import { AddCourseComponent } from './courses/add-course/add-course.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './404/page-not-found/page-not-found.component';
 import { EditCourseComponent } from './courses/edit-course/edit-course.component';
-import { AuthGuard } from './auth.guard';
+import { AuthInterceptor } from './shared/services/auth.interceptor';
+import { LoadingBlockComponent } from './loading-block/loading-block.component';
 
 @NgModule({
   declarations: [
@@ -40,21 +40,23 @@ import { AuthGuard } from './auth.guard';
     ButtonComponent,
     HighlightCreationDateDirective,
     DurationPipePipe,
-    OrderByPipe,
-    FilterPipe,
     ModalDeleteComponent,
     ModalLoginComponent,
     HideIfNotAuthenticatedDirective,
     AddCourseComponent,
     PageNotFoundComponent,
     EditCourseComponent,
+    LoadingBlockComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [AuthGuard],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

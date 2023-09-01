@@ -1,4 +1,3 @@
 <div class="inputBlock">
-    <input type="text" [(ngModel)]="text" placeholder="Text to search">
-    <button (click)="onButtonClick()">Submit</button>
+    <input type="text" #box (keyup)="onKeyUp(box.value)" placeholder="Text to search">
 </div>

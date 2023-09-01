@@ -1,5 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Course } from '../interfaces/course.interface.';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient} from '@angular/common/http'
+import { BehaviorSubject, Observable, Subject, debounceTime } from 'rxjs';
+
+import { HttpCourse } from '../interfaces/http-course.interface';
+import { LoadingService } from './loading.service';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Injectable({
   providedIn: 'root'
@@ -7,59 +12,56 @@ import { Course } from '../interfaces/course.interface.';
 export class CourseService {
 
   idCounter = 3;
+  inputSubject = new BehaviorSubject<string>('');
+  coursesSubject = new Subject<HttpCourse[]>();
+  private apiUrl = 'http://localhost:3004';
+  private quanityOfVisibleCourses = 3;
 
-  constructor() { }
+  constructor(private http: HttpClient, private loadingService: LoadingService) {}
 
-  courses: Course[] = [{
-    id: 1,
-    title: 'Some Title 1',
-    creationDate: new Date(2023, 5, 1),
-    duration: 200,
-    description: "Some description 1",
-    topRated: false
-  },
-  {
-    id: 2,
-    title: 'Some Title 2',
-    creationDate: new Date(2023, 5, 30),
-    duration: 100,
-    description: "Some description 2",
-    topRated: false
-  },
-  {
-    id: 3,
-    title: 'Some Title 3',
-    creationDate: new Date(2023, 2, 1),
-    duration: 50,
-    description: "Some description 3",
-    topRated: true
-  }]
-
-  getListCourses(): Course[] {
-    return this.courses;
+  onFetchCourses() {
+    this.loadingService.setLoadingSubject(true);
+    return this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?start=0&count=${this.quanityOfVisibleCourses}`)
+      .pipe(response => {
+        if (response) {
+          this.loadingService.setLoadingSubject(false);
+        }
+        return response;
+      })
   }
 
-  createCourse(course: Course): void {
-    course.id = ++this.idCounter;
-    this.courses.push(course);
+  onFetchCoursesWithFilter(textFragment: string): Observable<HttpCourse[]> {
+    this.loadingService.setLoadingSubject(true);
+    let obs = this.http.get<HttpCourse[]>(`${this.apiUrl}/courses?textFragment=${textFragment}`)
+    if (obs) {
+      this.loadingService.setLoadingSubject(false);
+    }
+    return obs;
   }
 
-  getCourseById(id: number): Course | undefined {
-    return this.courses.find(course => course.id === id);
+  onLoadAdditionalCourses() {
+    this.quanityOfVisibleCourses += 3;
   }
 
-  updateCourse(courseForUpdate: Course): void {
-    this.courses = this.courses.map(course => {
-      if (course.id === courseForUpdate.id) {
-        return {...course, ...courseForUpdate}
-      }
-      return course;
-    });
+  createCourse(course: HttpCourse) {
+    return this.http.post<HttpCourse>(`${this.apiUrl}/courses`, course)
+  }
+
+  getCourseById(id: number): Observable<HttpCourse> {
+    return this.http.get<HttpCourse>(`${this.apiUrl}/courses/${id}`);
+  }
+
+  updateCourse(courseForUpdate: HttpCourse): void {
+
   }
   
   removeCourse(id: number) {
-    const updatedArray = this.courses.filter(course => course.id !== id);
-    this.courses = [...updatedArray];
+    this.loadingService.setLoadingSubject(true);
+    let obs = this.http.delete<HttpCourse>(`${this.apiUrl}/courses/${id}`);
+    if (obs) {
+      this.loadingService.setLoadingSubject(false);
+    }
+    return obs;
   }
   
 }

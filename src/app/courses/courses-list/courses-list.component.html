@@ -1,10 +1,15 @@
 <ul class="coursesList">
-    <div class="noCourses" *ngIf="courses.length === 0">No data feel free to enter new course</div>
-    <li *ngFor="let item of filterItems(courses, searchValue) | orderBy; trackBy: trackByFn">
-        <app-course-item [id]="item.id" [title]="item.title" [description]="item.description" [duration]="item.duration"
-            [creationDate]="item.creationDate" [topRated]="item.topRated" (deletedItemId)="onDeleteCourse($event)">
-        </app-course-item>
-    </li>
+    <div *ngIf="listOfCourses; else noCoursesBlock">
+        <li *ngFor="let item of listOfCourses">
+            <app-course-item [id]="item.id" [title]="item.name" [description]="item.description"
+                [duration]="item.length" [topRated]="item.isTopRated" [creationDate]="item.date"
+                (deletedItemId)="onDeleteCourse($event)">
+            </app-course-item>
+        </li>
+    </div>
+    <ng-template #noCoursesBlock>
+        <div class="noCourses" *ngIf="listOfCourses.length === 0">No data feel free to enter new course</div>
+    </ng-template>
     <app-modal-delete *ngIf="showModal" [nameCourse]="titleForDelete" (closed)="onCloseModal()"
         (canceled)="onCancelModal()">
     </app-modal-delete>

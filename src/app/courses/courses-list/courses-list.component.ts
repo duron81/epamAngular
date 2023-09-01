@@ -1,62 +1,100 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subscription, debounceTime, filter } from 'rxjs';
 
-import { Course } from 'src/app/shared/interfaces/course.interface.';
-import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
+import { HttpCourse } from 'src/app/shared/interfaces/http-course.interface';
 import { CourseService } from 'src/app/shared/services/course.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.css']
 })
-export class CoursesListComponent implements OnInit {
-
-  constructor(private coursesService: CourseService) {}
+export class CoursesListComponent implements OnInit, OnDestroy {
 
   @Input() searchValue: string = '';
-
-  courses: Course[] = [];
-  courseForDelete?: Course;
-  titleForDelete = "";
+  courseForDelete?: HttpCourse;
+  titleForDelete: string = '';
   showModal = false;
+  listOfCourses: HttpCourse[] = [];
+  inputValue = '';
+  debounceTimeValue = 500;
+  subscriptionForInput?: Subscription;
+  subscriptionForCourses?: Subscription;
+  subscriptionForCourseService?: Subscription;
 
-
+  constructor(private courseService: CourseService, private loadingService: LoadingService ) {
+    
+  }
+  
   ngOnInit() {
-      this.courses = this.coursesService.getListCourses();
-  }
+    this.courseService.onFetchCourses().subscribe(response => {
+          this.courseService.coursesSubject.next(response);
+    });
 
-  trackByFn(index: number, item: Course): number {
-    return item.id; // Assuming each item has a unique "id" property
-  }
+    this.subscriptionForCourses = this.courseService.coursesSubject.
+      subscribe(response => {
+        this.listOfCourses = response;
+    })
 
-  filterItems(courses: Course[], searchtext: string): Course[] {
-    let filterPipe = new FilterPipe();
-    return filterPipe.transform(courses, searchtext);
+    this.subscriptionForInput = this.courseService.inputSubject
+    .pipe(debounceTime(this.debounceTimeValue))
+    .pipe(filter(input => input.length >= 3))
+    .subscribe(value => {
+        this.courseService.onFetchCoursesWithFilter(value).subscribe(
+          courses => {
+            this.listOfCourses = courses;
+          }
+        )
+    })
   }
 
   onClickLoadMore(): void {
-    console.log('clicked');
+    this.courseService.onLoadAdditionalCourses();
+    this.courseService.onFetchCourses().subscribe(response => {
+      this.courseService.coursesSubject.next(response);
+    });
   }
-
+  
   onDeleteCourse(id: number): void {
-    this.courseForDelete = this.coursesService.getCourseById(id);
-    if (this.courseForDelete) {
-      this.titleForDelete = this.courseForDelete.title;
-    }
+    this.courseService.getCourseById(id).subscribe(
+      response => {
+        this.courseForDelete = response;
+        this.titleForDelete = this.courseForDelete.name;
+      }
+    );  
     this.showModal = true;
   }
-
-
+  
+  
   onCloseModal(): void {
-    console.log(this.courseForDelete);
     if (this.courseForDelete) {
-      this.coursesService.removeCourse(this.courseForDelete.id);
-      this.courses = this.coursesService.getListCourses();
+      this.courseService.removeCourse(this.courseForDelete.id)
+      .subscribe(response => {})
     }
+    this.titleForDelete = '';
     this.showModal = false;
+    this.subscriptionForCourseService = this.courseService.onFetchCourses().subscribe(response => {
+      this.courseService.coursesSubject.next(response);
+    });
   }
 
   onCancelModal(): void {
+    this.titleForDelete = '';
     this.showModal = false;
+  }
+  
+  ngOnDestroy(): void {
+    if (this.subscriptionForInput) {
+      this.subscriptionForInput.unsubscribe();
+    }
+
+    if (this.subscriptionForCourses) {
+      this.subscriptionForCourses.unsubscribe();
+    }
+
+    if (this.subscriptionForCourseService) {
+      this.subscriptionForCourseService.unsubscribe();
+    }
   }
 }

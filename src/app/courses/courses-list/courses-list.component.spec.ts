@@ -5,8 +5,6 @@ import { Directive, ElementRef, Pipe, PipeTransform } from '@angular/core';
 import { CoursesListComponent } from './courses-list.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { CourseItemComponent } from './course-item/course-item.component';
-import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
-import { OrderByPipe } from 'src/app/shared/pipes/order-by.pipe';
 import { HighlightCreationDateDirective } from 'src/app/shared/directives/highlight-creation-date.directive';
 
 
@@ -41,13 +39,10 @@ describe('CoursesListComponent', () => {
         ButtonComponent, 
         CourseItemComponent, 
         MockOrderByPipe, 
-        MockDurationPipe, 
-        FilterPipe,
+        MockDurationPipe,
         HighlightCreationDateDirective
       ],
-      providers: [
-        FilterPipe
-      ]
+      providers: []
     });
     fixture = TestBed.createComponent(CoursesListComponent);
     component = fixture.componentInstance;
@@ -56,12 +51,6 @@ describe('CoursesListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should console log "clicked" onClickLoadMore method', () => {
-    spyOn(console, 'log');
-    component.onClickLoadMore();
-    expect(console.log).toHaveBeenCalledWith('clicked');
   });
   
 

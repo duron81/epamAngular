@@ -1,7 +1,8 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AuthenticationService } from './shared/services/authentication.service';
-import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { LoadingService } from './shared/services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -11,21 +12,21 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'my-app';
   userName = '';
+  loading!: Observable<boolean>;
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(
+    private loadingService: LoadingService,
+    private authService: AuthenticationService
+  ) {}
 
+  
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
-      this.userName = this.authService.getUserLogin();
-      this.router.navigate(['/courses']);
-    } else {
-      this.userName = '';
-      this.router.navigate(['/login']);
-    }
+    this.loading = this.loadingService.getLoadingSubject();
+
+    this.authService.getUser()
+      .subscribe(res => {
+        this.authService.setUserSubject(JSON.parse(JSON.stringify(res)));
+      });
   }
 
-  // onUserLogged() {
-  //   this.showLoginModal = false;
-  //   console.log('user logged emission');
-  // }
 }
