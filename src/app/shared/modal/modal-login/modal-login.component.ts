@@ -1,10 +1,12 @@
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { concatMap, map, mergeMap } from 'rxjs';
 
 import { AuthenticationService } from '@services/authentication.service';
 import { LoadingService } from '@services/loading.service';
-import { concatMap, map, mergeMap } from 'rxjs';
-
+import * as fromApp from '../../../store/app.reducer';
+import * as AuthActions from '../../../header/auth_store/auth.actions'
 
 @Component({
   selector: 'app-modal-login',
@@ -22,7 +24,8 @@ export class ModalLoginComponent implements OnInit {
   constructor(
     private authService: AuthenticationService, 
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private store: Store<fromApp.AppState>
   ) { }
 
   ngOnInit() {
@@ -36,16 +39,17 @@ export class ModalLoginComponent implements OnInit {
 
   login(): void {
     this.loadingService.setLoadingSubject(true);
-    this.authService.login(this.email, this.password)
-      .subscribe(
-          (response) => {
-            this.authService.isUserLogged.next(true);
-            this.router.navigate(['/courses']);
-          },
-          (error) => {
-            console.error('Error fetching data:', error);
-          }
-      );
+    this.store.dispatch(AuthActions.Login({login: this.email, password: this.password}));
+    // this.authService.login(this.email, this.password)
+    //   .subscribe(
+    //       (response) => {
+    //         this.authService.isUserLogged.next(true);
+    //         this.router.navigate(['/courses']);
+    //       },
+    //       (error) => {
+    //         console.error('Error fetching data:', error);
+    //       }
+    //   );
     this.email = '';
     this.password = '';
     this.loadingService.setLoadingSubject(false);

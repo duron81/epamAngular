@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
 import { CourseService } from './shared/services/course.service';
 import { AuthenticationService } from './shared/services/authentication.service';
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { LogoComponent } from './header/logo/logo.component';
@@ -26,6 +27,10 @@ import { PageNotFoundComponent } from './404/page-not-found/page-not-found.compo
 import { EditCourseComponent } from './courses/edit-course/edit-course.component';
 import { AuthInterceptor } from './shared/services/auth.interceptor';
 import { LoadingBlockComponent } from './loading-block/loading-block.component';
+import * as fromApp from './store/app.reducer';
+import { AuthEffects } from './header/auth_store/auth.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { CourseEffects } from './courses/courses_store/courses.effects';
 
 @NgModule({
   declarations: [
@@ -52,7 +57,10 @@ import { LoadingBlockComponent } from './loading-block/loading-block.component';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(fromApp.appReducer),
+    EffectsModule.forRoot([AuthEffects, CourseEffects]),
+    StoreDevtoolsModule.instrument(),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
