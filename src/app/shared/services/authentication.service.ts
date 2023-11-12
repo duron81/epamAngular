@@ -40,6 +40,7 @@ export class AuthenticationService implements OnDestroy {
         {login, password},
       )
       .pipe(map (response => {
+        // console.log('token is ' + JSON.parse(JSON.stringify(response)).token);
         const token = JSON.parse(JSON.stringify(response)).token;
         localStorage.setItem("token", token);
         this.getUser()
@@ -72,5 +73,7 @@ export class AuthenticationService implements OnDestroy {
         `${this.apiUrl}/auth/userinfo`,
         {token});
   }
+
+  
 
 }

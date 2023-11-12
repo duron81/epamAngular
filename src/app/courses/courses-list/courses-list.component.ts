@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subscription, debounceTime, filter } from 'rxjs';
+import { Subscription, map } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { HttpCourse } from 'src/app/shared/interfaces/http-course.interface';
 import { CourseService } from 'src/app/shared/services/course.service';
-import { LoadingService } from 'src/app/shared/services/loading.service';
+import * as CoursesActions from '../courses_store/course.actions'
+import * as fromApp from '../../store/app.reducer'
 
 @Component({
   selector: 'app-courses-list',
@@ -23,37 +25,28 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   subscriptionForCourses?: Subscription;
   subscriptionForCourseService?: Subscription;
 
-  constructor(private courseService: CourseService, private loadingService: LoadingService ) {
+  constructor(
+    private courseService: CourseService, 
+    private store: Store<fromApp.AppState>,
+  ) {
     
   }
   
   ngOnInit() {
-    this.courseService.onFetchCourses().subscribe(response => {
-          this.courseService.coursesSubject.next(response);
-    });
+    this.store.dispatch(CoursesActions.FetchCourses());
 
-    this.subscriptionForCourses = this.courseService.coursesSubject.
-      subscribe(response => {
+    this.store.select('courses')
+      .pipe(
+        map(response => response.courses)
+      )
+      .subscribe(response => {
         this.listOfCourses = response;
-    })
-
-    this.subscriptionForInput = this.courseService.inputSubject
-    .pipe(debounceTime(this.debounceTimeValue))
-    .pipe(filter(input => input.length >= 3))
-    .subscribe(value => {
-        this.courseService.onFetchCoursesWithFilter(value).subscribe(
-          courses => {
-            this.listOfCourses = courses;
-          }
-        )
-    })
+      })
   }
 
   onClickLoadMore(): void {
-    this.courseService.onLoadAdditionalCourses();
-    this.courseService.onFetchCourses().subscribe(response => {
-      this.courseService.coursesSubject.next(response);
-    });
+    this.store.dispatch(CoursesActions.LoadMoreCourses());
+    this.store.dispatch(CoursesActions.FetchCourses());
   }
   
   onDeleteCourse(id: number): void {
@@ -69,14 +62,11 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   
   onCloseModal(): void {
     if (this.courseForDelete) {
-      this.courseService.removeCourse(this.courseForDelete.id)
-      .subscribe(response => {})
+      this.store.dispatch(CoursesActions.DeleteCourse({id: this.courseForDelete.id}));
     }
     this.titleForDelete = '';
     this.showModal = false;
-    this.subscriptionForCourseService = this.courseService.onFetchCourses().subscribe(response => {
-      this.courseService.coursesSubject.next(response);
-    });
+    // this.store.dispatch(CoursesActions.FetchCourses());
   }
 
   onCancelModal(): void {

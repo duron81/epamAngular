@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import { CourseService } from 'src/app/shared/services/course.service';
+import * as fromApp from '../../store/app.reducer'
+import * as CoursesActions from '../courses_store/course.actions'
 
 @Component({
   selector: 'app-input',
@@ -9,10 +12,10 @@ import { CourseService } from 'src/app/shared/services/course.service';
 })
 export class InputComponent {
 
-  constructor(private courseService: CourseService) {}
+  constructor(private store: Store<fromApp.AppState>,) {}
 
   onKeyUp(value: string) {
-      this.courseService.inputSubject.next(value);
+      this.store.dispatch(CoursesActions.FetchCoursesWithFilter({filter: value}))
   }
 
 }

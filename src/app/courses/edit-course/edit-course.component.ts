@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpAuthor } from 'src/app/shared/interfaces/http-author.interface';
 
 import { CourseService } from 'src/app/shared/services/course.service';
 
@@ -18,12 +19,15 @@ export class EditCourseComponent implements OnInit {
   duration!: number;
   date: Date = new Date();
   title!: string;
+  authors!: HttpAuthor[];
 
   ngOnInit(): void {
     this.getCourse();
   }
 
   getCourse(): void {
+
+
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.courseService.getCourseById(this.id).subscribe(
       response => {
@@ -31,6 +35,7 @@ export class EditCourseComponent implements OnInit {
           this.description = response.description;
           this.duration = response.length;
           this.date = new Date(response.date);
+          this.authors = response.authors;
           this.title = response.name;
         }
         this.breadcrumbs += `/${this.title}`

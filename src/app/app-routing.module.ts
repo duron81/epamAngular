@@ -11,10 +11,10 @@ import { EditCourseComponent } from './courses/edit-course/edit-course.component
 
 const routes: Routes = [
   { path: '', redirectTo: 'courses', pathMatch: 'full' },
+  { path: 'courses', loadChildren: () => import('./feature/feature.module').then(m => m.FeatureModule) },
   { path: 'login', component: ModalLoginComponent},
   { path: 'courses/new', component: AddCourseComponent, canActivate: [AuthGuard]},
   { path: 'courses/:id', component: EditCourseComponent, canActivate: [AuthGuard] },
-  { path: 'courses', loadChildren: () => import('./feature/feature.module').then(m => m.FeatureModule) },
   { path: '**', component: PageNotFoundComponent },
 ];
 

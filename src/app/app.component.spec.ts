@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Pipe, PipeTransform } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -11,6 +12,7 @@ import { CourseItemComponent } from './courses/courses-list/course-item/course-i
 import { FooterComponent } from './footer/footer.component';
 import { LogoComponent } from './header/logo/logo.component';
 import { ButtonComponent } from './shared/components/button/button.component';
+import * as fromApp from './store/app.reducer'
 
 
 
@@ -26,7 +28,10 @@ describe('AppComponent', () => {
   }
 
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [ FormsModule ],
+    imports: [ 
+      FormsModule,
+      StoreModule.forRoot(fromApp.appReducer)
+     ],
     declarations: [
       AppComponent, 
       HeaderComponent, 

@@ -1,10 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient} from '@angular/common/http'
-import { BehaviorSubject, Observable, Subject, debounceTime } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, debounceTime, tap } from 'rxjs';
 
 import { HttpCourse } from '../interfaces/http-course.interface';
 import { LoadingService } from './loading.service';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { HttpAuthor } from '../interfaces/http-author.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,11 @@ export class CourseService {
   getCourseById(id: number): Observable<HttpCourse> {
     return this.http.get<HttpCourse>(`${this.apiUrl}/courses/${id}`);
   }
+
+  getAuthors() {
+    return this.http.get<HttpAuthor[]>(`${this.apiUrl}/authors`)
+  }
+
 
   updateCourse(courseForUpdate: HttpCourse): void {
 

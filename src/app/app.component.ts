@@ -16,17 +16,11 @@ export class AppComponent implements OnInit {
 
   constructor(
     private loadingService: LoadingService,
-    private authService: AuthenticationService
   ) {}
 
   
   ngOnInit(): void {
     this.loading = this.loadingService.getLoadingSubject();
-
-    this.authService.getUser()
-      .subscribe(res => {
-        this.authService.setUserSubject(JSON.parse(JSON.stringify(res)));
-      });
   }
 
 }

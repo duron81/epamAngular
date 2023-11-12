@@ -1,11 +1,15 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
 
 import { v4 as uuidv4 } from "uuid";
 
 import { CourseService } from '../../shared/services/course.service';
 import { HttpCourse } from '../../shared/interfaces/http-course.interface';
 import { HttpAuthor } from '../../shared/interfaces/http-author.interface';
+import * as fromApp from '../../store/app.reducer'
+import * as CourseActions from '../courses_store/course.actions'
 
 @Component({
   selector: 'app-add-course',
@@ -17,16 +21,18 @@ export class AddCourseComponent implements OnInit {
   @Input() title! : string;
   @Input() description! : string;
   @Input() duration! : number;
-  @Input() date : Date = new Date(2023, 5, 1);
+  @Input() date : Date = new Date();
   durationTime! : string;
-  authors!: string [];
+  @Input() authors!: HttpAuthor [];
   showAuthors = false;
   isEditMode = false;
 
-  constructor(private router: Router, private courseService: CourseService) {}
+  constructor(private router: Router, private courseService: CourseService, private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
     this.isEditMode = !!this.id;
+
+    this.showAuthors = this.isEditMode;
   }
 
   onCancel(): void {
@@ -34,18 +40,17 @@ export class AddCourseComponent implements OnInit {
   }
 
   onSave(): void {
-
     let authorsList: HttpAuthor[] = [];
 
     this.authors.forEach(author => {
       authorsList.push({
         id: parseInt(uuidv4().substr(0, 8), 16),
-        name: author
+        name: author.name
       })
     })
 
     const course: HttpCourse = {
-      id: parseInt(uuidv4().substr(0, 8), 16),
+      id: this.isEditMode ? this.id : parseInt(uuidv4().substr(0, 8), 16),
       name: this.title,
       date: this.date.toString(),
       length: this.duration,
@@ -55,20 +60,29 @@ export class AddCourseComponent implements OnInit {
     }
 
     if (this.isEditMode) {
-      
+      this.store.dispatch(CourseActions.UpdateCourse({course: course}));
     } else {
-      this.courseService.createCourse(course).subscribe(
-        (response) => {},
-        (error) => {
-          console.error('Error fetching data:', error);
-        }); 
-      this.router.navigate(['courses']);
+      this.store.dispatch(CourseActions.CreateCourse({course: course}));
     }
   }
 
   onAddAuthors(): void {
     this.showAuthors = true;
-    this.authors = ['John Doe', 'Yohan Smitz'];
+
+    this.courseService.getAuthors()
+      .pipe(
+        map(response => {
+            response.forEach(res => {
+              let arrayOfNames = res.name.split(' ');
+              res.name = arrayOfNames[1];
+              res.lastName = arrayOfNames[0];
+            })
+            return response
+        }),
+      )
+      .subscribe(response => {
+        this.authors = response;
+      })
   }
 
   onDeleteAuthor(item: number) {
