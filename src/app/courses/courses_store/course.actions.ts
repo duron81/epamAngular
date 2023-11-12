@@ -8,6 +8,7 @@ const SET_COURSES = '[Courses] Set Courses';
 const LOAD_MORE_COURSES = '[Courses] Load More Courses';
 const CREATE_COURSE = '[Courses] Create Course';
 const UPDATE_COURSE = '[Courses] Update Course';
+const DELETE_COURSE = '[Courses] Delete Course';
 
 export const FetchCourses = createAction(
     FETCH_COURSES
@@ -35,7 +36,12 @@ export const CreateCourse = createAction(
 export const UpdateCourse = createAction(
     UPDATE_COURSE,
     props<{course: HttpCourse}>()
-)
+);
+
+export const DeleteCourse = createAction(
+    DELETE_COURSE,
+    props<{id: number}>()
+);
 
 
 

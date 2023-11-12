@@ -7,18 +7,17 @@ import * as CoursesActions from './course.actions'
 
 export interface State {
     courses: HttpCourse[];
-    quantityOfVisibleCourses: number;
+    shownCoursesQuantity: number;
 };
 
 const initialState: State = {
     courses: [],
-    quantityOfVisibleCourses: 3,
+    shownCoursesQuantity: 3,
 };
 
 export const courseReducer = createReducer(
     initialState,
     on(CoursesActions.SetCourses, (state, action) => {
-        // console.log('reducer ' + [...action.courses]);
         return {
             ...state,
             courses: [...action.courses]
@@ -27,15 +26,34 @@ export const courseReducer = createReducer(
     on(CoursesActions.LoadMoreCourses, (state, action) => {
         return {
             ...state,
-            quantityOfVisibleCourses: state.quantityOfVisibleCourses+3
+            shownCoursesQuantity: state.shownCoursesQuantity+3
         }
     }),
-    // on(CoursesActions.AddCourse, (state, action) => {
-    //     // console.log('course in action ' + action.course.name);
-    //     console.log(state.courses.length);
-    //     return {
-    //         ...state,
-    //         courses: [...state.courses, action.course]
-    //     }
-    // })
+    on(CoursesActions.CreateCourse, (state, action) => {
+        return {
+            ...state,
+            courses: [...state.courses, action.course]
+        }
+    }),
+    on(CoursesActions.UpdateCourse, (state, action) => {
+        const initCourses = state.courses;
+        const cnangedCourses = initCourses.map(course => {
+            if (course.id === action.course.id) {
+                return action.course
+            } else {
+                return course;
+            }
+        })
+        return {
+            ...state,
+            courses: cnangedCourses
+        }
+    }),
+    on(CoursesActions.DeleteCourse, (state, action) => {
+        const changedCourses = state.courses.filter(course => course.id !== action.id);
+        return {
+            ...state,
+            courses: changedCourses
+        }
+    })
 )

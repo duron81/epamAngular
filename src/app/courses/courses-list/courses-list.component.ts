@@ -62,12 +62,11 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   
   onCloseModal(): void {
     if (this.courseForDelete) {
-      this.courseService.removeCourse(this.courseForDelete.id)
-      .subscribe(response => {})
+      this.store.dispatch(CoursesActions.DeleteCourse({id: this.courseForDelete.id}));
     }
     this.titleForDelete = '';
     this.showModal = false;
-    this.store.dispatch(CoursesActions.FetchCourses());
+    // this.store.dispatch(CoursesActions.FetchCourses());
   }
 
   onCancelModal(): void {

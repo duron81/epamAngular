@@ -40,16 +40,6 @@ export class ModalLoginComponent implements OnInit {
   login(): void {
     this.loadingService.setLoadingSubject(true);
     this.store.dispatch(AuthActions.Login({login: this.email, password: this.password}));
-    // this.authService.login(this.email, this.password)
-    //   .subscribe(
-    //       (response) => {
-    //         this.authService.isUserLogged.next(true);
-    //         this.router.navigate(['/courses']);
-    //       },
-    //       (error) => {
-    //         console.error('Error fetching data:', error);
-    //       }
-    //   );
     this.email = '';
     this.password = '';
     this.loadingService.setLoadingSubject(false);

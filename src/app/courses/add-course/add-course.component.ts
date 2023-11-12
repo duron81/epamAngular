@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -9,7 +10,6 @@ import { HttpCourse } from '../../shared/interfaces/http-course.interface';
 import { HttpAuthor } from '../../shared/interfaces/http-author.interface';
 import * as fromApp from '../../store/app.reducer'
 import * as CourseActions from '../courses_store/course.actions'
-import { map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-add-course',
@@ -60,7 +60,6 @@ export class AddCourseComponent implements OnInit {
     }
 
     if (this.isEditMode) {
-      // console.log('save in edit mode');
       this.store.dispatch(CourseActions.UpdateCourse({course: course}));
     } else {
       this.store.dispatch(CourseActions.CreateCourse({course: course}));

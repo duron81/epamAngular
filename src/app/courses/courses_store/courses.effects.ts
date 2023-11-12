@@ -24,7 +24,7 @@ export class CourseEffects {
             withLatestFrom(this.store.select('courses')),
             switchMap(([actionData, state]) => {
                 return this.http.get<HttpCourse[]>(
-                    `${this.apiUrl}/courses?start=0&count=${state.quantityOfVisibleCourses}`
+                    `${this.apiUrl}/courses?start=0&count=${state.shownCoursesQuantity}`
                 )
             }),
             map(response => {
@@ -70,6 +70,21 @@ export class CourseEffects {
         ),
         {dispatch: false}
     )
+
+    deleteCourse$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(CoursesActions.DeleteCourse),
+            switchMap(course => {
+                return this.http.delete<HttpCourse>(`${this.apiUrl}/courses/${course.id}`);
+            }),
+            map(response => {
+                console.log('response in delete effect is ' + response);
+                return CoursesActions.FetchCourses();
+            })
+        )
+    )
+
+
 
     constructor(
         private actions$: Actions, 

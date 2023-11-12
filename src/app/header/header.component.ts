@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subscription, map } from 'rxjs';
 
 import { AuthenticationService } from '../shared/services/authentication.service';
-import { Subscription, map } from 'rxjs';
-import * as AuthActions from './auth_store/auth.actions'
+import * as AuthActions from './auth_store/auth.actions' 
 import * as fromApp from '../store/app.reducer'
 
 @Component({
@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userName = user;
       })
 
-    if(window.localStorage.getItem('name') && window.localStorage.getItem('token')) {
+    if(localStorage.getItem('name') && localStorage.getItem('token')) {
       const name = localStorage.getItem('name');
       const token = localStorage.getItem('token');
       if (name && token) {
@@ -43,10 +43,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogOut(): void {
     this.store.dispatch(AuthActions.Logout());
-    localStorage.removeItem('name')
     this.authService.logout();
     this.userName = '';
-    this.router.navigate(['/login']);
   }
 
   ngOnDestroy(): void {

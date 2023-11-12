@@ -26,12 +26,11 @@ export class AuthEffects {
                     {login, password}
                 )
                 .pipe(
-                    tap(data => {
-                        localStorage.setItem("token", JSON.parse(JSON.stringify(data)).token);
-                        tokenOfUSer = JSON.parse(JSON.stringify(data)).token;;
-                    }),
                     map(data => {
-                        return JSON.parse(JSON.stringify(data)).token;
+                        const token = JSON.parse(JSON.stringify(data)).token;
+                        localStorage.setItem("token", token);
+                        tokenOfUSer = token;
+                        return token;
                     }),
                     switchMap(token => {
                         return this.http.post(
@@ -40,18 +39,30 @@ export class AuthEffects {
                         )
                         .pipe(
                             tap(data => {
-                                localStorage.setItem("name", JSON.parse(JSON.stringify(data)).name.first);
                                 this.router.navigate(['/courses']);
                             }),
                             map(response => {
-                                let name = JSON.parse(JSON.stringify(response)).name.first;
-                                return AuthActions.UpdateUser({name: name, token: tokenOfUSer})
+                                const userName = JSON.parse(JSON.stringify(response)).name.first;
+                                localStorage.setItem("name", userName);
+                                return AuthActions.UpdateUser({name: userName, token: tokenOfUSer})
                             })
                         )
                     })
                 )
             })
         )
+    )
+
+    authLogout$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(AuthActions.Logout),
+            tap(() => {
+                localStorage.removeItem('name');
+                localStorage.removeItem('token');
+                this.router.navigate(['/login']);
+            })
+        ),
+        {dispatch:false}
     )
 
     constructor(
